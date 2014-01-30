@@ -129,15 +129,35 @@
         content = content.slice(content.indexOf("\n"+1));
       }
       try {
-        ast = acorn.parse(content, {
-          locations : true
-        });
+        this.th.addFile(filename, content);
+        // we should laready have the ast in this.ternHandler.ternServer.files somewhere...debug:
+        // find file:...too bad addFile doesnt returns an AST or something.. :<
+        for (var i in this.th.ternServer.files) {
+          var fobj = this.th.ternServer.files[i];
+          // { name: 'foo/foo.js', lineOffsets: null, ast: { ... }, text: '...',  scope: null }
+          if (fobj.name.indexOf(filename) !== -1) {
+            ast = fobj.ast;
+            // walk through AST and query types..
+          }
+        }
       }
       catch(e) {
         console.log("ERROR: Skipping " + filename +" (parsing failure)");
         console.log('Exception: '+e+ "\n");
         return [];
       }
+      var self = this
+      /*ScanJS.traverse(ast, function(node) {
+        if (node.type == "Identifier") {
+          self.th.getType(filename, node.start, function(err, data) {
+            if (!err) {
+              //console.log("Found a type >:D")
+              node.varType = data.type; // there you go..
+            }
+            //else { console.log("couldnt find a type :<"); }
+          })
+        }
+      });*/
 
       //run all the rules against content.
 
@@ -152,16 +172,33 @@
         } else {
           testFunc = ScanJS.template.generate(rule.test);
         }
-
         ScanJS.traverse(ast, function(node) {
+          if (key == 1) {
+            if (node.type == "Identifier") {
+              self.th.getType(filename, node.start, function(err, data) {
+                if (!err) {
+                  //console.log("Found a type >:D")
+                  node.varType = data.type; // there you go..
+                }
+                //else { console.log("couldnt find a type :<"); }
+              })
+            }
+          }
           var result = testFunc.call(this, node);
           if(result) {
             scanresults[rule.name].push({
               rule : rule,
               filename : filename,
               copiedname : filename,
-              line : node.loc.start.line,
-              col : node.loc.start.col,
+              // FIXME --v
+              // these are nul, but still used in the code.
+              // hunt down and identify references. then remove these
+              // attributes.
+              line : 'FIXME', // node.loc.start.line
+              col : 'FIXME', // node.loc.start.col
+              // end of FIXME--^
+              end: node.end,
+              start: node.start,
               node : node
             });
           }
