@@ -157,7 +157,6 @@
       if (typeof angular != "undefined") {
 	angular.element(document.getElementById("input")).scope().astCodeMirror.setValue(str);
       }else {
-	console.log('not printing AST to angular');
 	//TODO: print to file/stdout based on cmd line argument.
 	//console.log(str);
       }
