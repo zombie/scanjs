@@ -101,4 +101,7 @@ angular.element(document).ready(function() {
   scanCtrlScope.codeMirror = new CodeMirror(document.getElementById('codeMirrorDiv'), { mode: 'javascript',
                                             lineNumbers: true, theme: 'mdn-like', value: initialValue,
                                             styleActiveLine: true});
+  scanCtrlScope.astCodeMirror = new CodeMirror(document.getElementById('astMirrorDiv'), { mode: 'javascript',
+                                            lineNumbers: true, theme: 'mdn-like', value: "Please run scan to see Abstract Syntax Tree.",
+                                            styleActiveLine: true});
 });

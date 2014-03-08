@@ -1,0 +1,16 @@
+@import url("bootstrap.css");
+@import url("codemirror.css");
+@import url("codemirror-mdn.css");
+html, body {
+  height: 100%;
+}
+textarea {
+  width: 600px;
+  min-width: 200px;
+  max-height: 200px;
+  height: 400px;
+}
+.rule-list {
+  height: 700px;
+  overflow: auto;
+}

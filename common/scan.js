@@ -141,8 +141,28 @@
         throw e;
       }
 
+      //append AST to document, but first clean tree of clutter
+      function cleanup(key, value) {
+	//if(key == "start" || key == "end" || key == "loc" || key == "line" || key == "column") {
+	if(key == "loc") {
+	  return undefined;
+	}else if(key == "start" || key == "end"){
+	  return undefined;
+	}else if(key == "raw"){
+	  return undefined;
+	}
+	return value;
+      }
+      var str = JSON.stringify(ast.body,cleanup,2);
+      if (typeof angular != "undefined") {
+	angular.element(document.getElementById("input")).scope().astCodeMirror.setValue(str);
+      }else {
+	console.log('not printing AST to angular');
+	//TODO: print to file/stdout based on cmd line argument.
+	//console.log(str);
+      }
+      
       //run all the rules against content.
-
       console.log('Running tests against ' + filename);
       for (var key in signatures) {
         this.testNumber++; // ??
