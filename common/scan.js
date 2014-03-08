@@ -143,7 +143,6 @@
 
       //append AST to document, but first clean tree of clutter
       function cleanup(key, value) {
-	//if(key == "start" || key == "end" || key == "loc" || key == "line" || key == "column") {
 	if(key == "loc") {
 	  return undefined;
 	}else if(key == "start" || key == "end"){
