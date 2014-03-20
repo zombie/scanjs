@@ -25,7 +25,9 @@ onmessage = function (evt) {
      rules = args[1];
     }
     var file = args[2];
-    var findings = ScanJS.scan(source, rules, file);
-    postMessage({"filename": file, "findings": findings});
+    var scanreply = ScanJS.scan(source, rules, file);
+    var findings = scanreply[0]
+    var errors = scanreply[1];
+    postMessage({"filename": file, "findings": findings, 'errors': errors});
   }
 };

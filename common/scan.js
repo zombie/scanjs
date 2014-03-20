@@ -67,6 +67,7 @@
       //console.log(content);
       //console.log(signatures);
       var scanresults = [];
+      var scanerrors = {};
 
       this.testNumber = 0;
       this.testTotal = signatures.length;
@@ -87,7 +88,7 @@
       catch(e) {
         console.log("ERROR: Skipping " + filename +" (parsing failure)");
         console.log('Exception: '+e+ "\n");
-        throw e;
+        scanerrors[filename] = e;
       }
 
       //run all the rules against content.
@@ -123,8 +124,9 @@
           delete scanresults[rule.name]; // no need to store empty arrays
         }
       }
+      console.log("scanresults", scanresults);
       console.log(filename + ' had matches for ' + Object.keys(scanresults).length + ' rules.');
-      return scanresults;
+      return scanresults, scanerrors;
     }
   }
 

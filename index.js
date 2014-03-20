@@ -64,7 +64,12 @@ if( typeof process != 'undefined' && process.argv[2]) {
       if(ext == '.js') {
         var content = fs.readFileSync(fullpath, 'utf8');
         try {
-          results[fullpath] = ScanJS.scan(content, signatures, fullpath);
+          var scanreply = ScanJS.scan(content, signatures, fullpath);
+          results[fullpath] = scanreply[0]
+          var errors = scanreply[1];
+          if (Object.keys(errors).length > 0) {
+            throw errors[fullpath]; // stupid workaround, we should remove the surrounding try/catch and branch into the other execution path with an "if".
+          }
         } catch(e) {
           if (e instanceof SyntaxError) { // e.g., parse failure
             //XXX this might be easy to overlook when scanning a big folder

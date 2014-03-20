@@ -2,7 +2,8 @@ function ScanCtrl($scope, ScanSvc) {
   $scope.codeMirror = undefined;
   $scope.inputFiles = [];
   $scope.results=[];
-
+  $scope.throb = false;
+  var pending = 0;
   var selectedFile = 0;
   var codeMirror_index = 0;
   $scope.loadPossible = false;
@@ -19,6 +20,8 @@ function ScanCtrl($scope, ScanSvc) {
       console.log("start of run;", $scope.inputFiles[0].name);
       $scope.inputFiles.forEach(function (scriptFile, i) {
 	if (document.getElementById('doScan_'+i).checked) {
+    pending++; $scope.throb = true;
+    console.log("pending++", pending);
 	  ScanSvc.newScan(scriptFile.name,scriptFile.asText());
 	}
       });
@@ -188,8 +191,11 @@ function ScanCtrl($scope, ScanSvc) {
   }
 
   $scope.$on('NewResults', function (event, result) {
+    pending--; console.log("pending--", pending);
+    if (pending == 0) { $scope.throb = false; }
     if (Object.keys(result).length == 0) {
       $scope.error = "Empty result set (this can also be a good thing, if you test a simple file)";
+      //$scope.apply();
       return
     }
     $scope.results=$scope.results.concat(result.findings);
@@ -200,6 +206,9 @@ function ScanCtrl($scope, ScanSvc) {
   });
 
   $scope.$on('ScanError', function (event, exception) {
+    console.log("scanerror w00t")
+    pending--; console.log("pending--", pending);
+    if (pending == 0) { $scope.throb = false; }
     $scope.error = exception.name + " at Line " + exception.loc.line + ", Column " + exception.loc.column + ": " + exception.message;
   });
 }
