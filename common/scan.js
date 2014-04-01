@@ -130,4 +130,5 @@
 
   exports.scan = ScanJS.scan;
   exports.traverse = ScanJS.traverse;
+  exports.template = ScanJS.template;
 });
