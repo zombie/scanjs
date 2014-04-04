@@ -268,23 +268,26 @@ function ScanCtrl($scope, ScanSvc) {
         alert('There are no results to export')
       }
 
-      var results = new Array();
-      rob = results_storage;
-      console.log(results_storage);
+      var printable = {};
       JSON.parse(results_storage).forEach( function (result) {
-	var str_res = result.filename.toString() + "," + result.line.toString() + "," + result.rule.name;
-	results.push(str_res);
+        if (printable[result.filename] === undefined)
+          printable[result.filename] = {};
+        if (printable[result.filename][result.rule.name] === undefined)
+          printable[result.filename][result.rule.name] = [];
+        printable[result.filename][result.rule.name].push(result.line);
       });
 
       var p = document.createElement('h6');
-      p.textContent = "filename, line, rule name";
-      document.getElementById('report-iframe').appendChild(p);
-      results.forEach( function (res) {
-	var p = document.createElement('h6');
-	p.textContent = res;
-	document.getElementById('report-iframe').appendChild(p);
-	console.log(res);
-      });
+      p.textContent = "filename, rule name, line";
+      var report_iframe = document.getElementById('report-iframe');
+      report_iframe.appendChild(p);
+      for (var file in printable) {
+        for (var rule in printable[file]) {
+          var p = document.createElement('h6');
+          p.textContent = file + ", " + rule + ", [" + printable[file][rule].join(", ") + "]";
+          report_iframe.appendChild(p);
+        }
+      }
     });
   }
 }
