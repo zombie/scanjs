@@ -40,6 +40,7 @@
       <li><a id="scan-header">Scan</a></li>
       <li><a id="rules-header">Rules</a></li>
       <li><a id="experiment-header">Experiment</a></li>
+      <li><a id="report-header">Report</a></li>
     </ul>
   </div>
   <!-- header -->
@@ -82,6 +83,9 @@
         <div id="scan-files-selected" class="hidden">
           <p>
             Select files below, then <button class="btn btn-default left-block" ng-click='run()'>Scan</button>
+          </p>
+          <p>
+            Export <button class="btn btn-default left-block" ng-click='export()'>Export</button>
           </p>
           <table class="table table-striped">
             <thead>
@@ -201,8 +205,14 @@
         </tr>
       </table>
     </div>
+  </div> <!-- experiment-wrapper -->
+
+  <div id="report-wrapper" class="panel ">
+    <div class="jumbotron col-md-10 col-md-offset-2">
+      <div id="report-iframe">
+      </div>
+    </div>
   </div>
-  <!-- scan-manual -->
 
   </body>
 </html>

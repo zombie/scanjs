@@ -261,4 +261,30 @@ function ScanCtrl($scope, ScanSvc) {
   $scope.$on('ScanError', function (event, exception) {
     $scope.error = exception.name + " at Line " + exception.loc.line + ", Column " + exception.loc.column + ": " + exception.message;
   });
+
+  $scope.export = function() {
+    localforage.getItem('results', function (results_storage) {
+      if(!results_storage){
+        alert('There are no results to export')
+      }
+
+      var results = new Array();
+      rob = results_storage;
+      console.log(results_storage);
+      JSON.parse(results_storage).forEach( function (result) {
+	var str_res = result.filename.toString() + "," + result.line.toString() + "," + result.rule.name;
+	results.push(str_res);
+      });
+
+      var p = document.createElement('h6');
+      p.textContent = "filename, line, rule name";
+      document.getElementById('report-iframe').appendChild(p);
+      results.forEach( function (res) {
+	var p = document.createElement('h6');
+	p.textContent = res;
+	document.getElementById('report-iframe').appendChild(p);
+	console.log(res);
+      });
+    });
+  }
 }
