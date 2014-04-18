@@ -51,7 +51,6 @@
     <div class="col-md-2 sidebar">
       <ul class="nav nav-sidebar">
         <li id="scan-input-nav" ng-click="navShowInput()" class="active"><a>Input<span class="badge pull-right">{{inputFiles.length}}</span></a></li>
-        <li id="scan-input-nav" ng-click="navShowReport()"><a>Report</a></li>
 	<li id="scan-output-nav">
 	  <a ng-click="navShowOutput()">Output
           <img ng-show="throb" src="img/throbber.png">
@@ -156,6 +155,22 @@
             </table>
       </div>
 
+      <h4>Report<span class="badge pull-right">{{reportLength}}</span></h4>
+      <div id="report-wrapper" class="panel ">
+	<div class="jumbotron col-md-12">
+	  <span class="pull-right">
+	    <p>
+	      Export will create a small summary of the application's current
+	      state. </br>
+	      <button class="btn btn-default pull-right" ng-click='export()'>Export</button>
+	    </p>
+	  </span>
+	  <div class="center-block col-md-12">
+	    <div id="report"></div>
+	  </div>
+	</div>
+      </div>
+
     </div>
 
     </div>
@@ -163,7 +178,6 @@
       <h4>File Viewer <span id="filename-badge" class="badge pull-right"></span></h4>
       <div class="codeMirrorDiv" id="codeMirrorDiv"></div>
     </div>
-
   </div>
   <!-- end scan-wrapper -->
 
@@ -232,17 +246,6 @@
     </div>
   </div> <!-- experiment-wrapper -->
 
-  <div id="report-wrapper" class="panel ">
-    <div class="jumbotron col-md-12">
-      <span class="pull-right">
-	<h3> Please click to generate simple summary report <button class="btn
-	    btn-default" ng-click='export()'>Export</button></h3>
-      </span>
-      <div class="center-block col-md-12">
-	<div id="report"></div>
-      </div>
-    </div>
-  </div>
 
   </body>
 </html>

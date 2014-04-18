@@ -8,6 +8,7 @@ function ScanCtrl($scope, ScanSvc) {
   $scope.inputFilename="";
   $scope.issueList=[];
   $scope.throb = false;
+  $scope.reportLength = 0;
 
   var pending = 0;
   var selectedFile = 0;
@@ -282,6 +283,7 @@ function ScanCtrl($scope, ScanSvc) {
   });
 
   $scope.export = function() {
+    document.getElementById('report').innerHTML = "";
     localforage.getItem('results', function (results_storage) {
       if(!results_storage){
         alert('There are no results to export')
@@ -291,8 +293,11 @@ function ScanCtrl($scope, ScanSvc) {
       JSON.parse(results_storage).forEach( function (result) {
         if (printable[result.filename] === undefined)
           printable[result.filename] = {};
-        if (printable[result.filename][result.rule.name] === undefined)
+        if (printable[result.filename][result.rule.name] === undefined) {
           printable[result.filename][result.rule.name] = [];
+	  $scope.reportLength += 1;
+	  console.log($scope.reportLength);
+	}
         printable[result.filename][result.rule.name].push(result.line);
       });
 
