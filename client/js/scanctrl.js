@@ -279,7 +279,7 @@ function ScanCtrl($scope, ScanSvc) {
 
       var p = document.createElement('h6');
       p.textContent = "filename, rule name, line";
-      var report_iframe = document.getElementById('report-iframe');
+      var report_iframe = document.getElementById('report');
       report_iframe.appendChild(p);
       for (var file in printable) {
         for (var rule in printable[file]) {

@@ -40,7 +40,6 @@
       <li><a id="scan-header">Scan</a></li>
       <li><a id="rules-header">Rules</a></li>
       <li><a id="experiment-header">Experiment</a></li>
-      <li><a id="report-header">Report</a></li>
     </ul>
   </div>
   <!-- header -->
@@ -50,6 +49,7 @@
     <div class="col-md-2 sidebar">
       <ul class="nav nav-sidebar">
         <li id="scan-input-nav" ng-click="navShowInput()" class="active"><a>Input<span class="badge pull-right">{{inputFiles.length}}</span></a></li>
+        <li id="scan-input-nav" ng-click="navShowReport()"><a>Report</a></li>
 	<li id="scan-output-nav">
 	  <a ng-click="navShowOutput()" >Output <span class="badge pull-right">{{results.length}}</span></a>
 	  <div id="scan-output-rules" class="hidden">
@@ -83,9 +83,6 @@
         <div id="scan-files-selected" class="hidden">
           <p>
             Select files below, then <button class="btn btn-default left-block" ng-click='run()'>Scan</button>
-          </p>
-          <p>
-            Export <button class="btn btn-default left-block" ng-click='export()'>Export</button>
           </p>
           <table class="table table-striped">
             <thead>
@@ -208,8 +205,13 @@
   </div> <!-- experiment-wrapper -->
 
   <div id="report-wrapper" class="panel ">
-    <div class="jumbotron col-md-10 col-md-offset-2">
-      <div id="report-iframe">
+    <div class="jumbotron col-md-12">
+      <span class="pull-right">
+	<h3> Please click to generate simple summary report <button class="btn
+	    btn-default" ng-click='export()'>Export</button></h3>
+      </span>
+      <div class="center-block col-md-12">
+	<div id="report"></div>
       </div>
     </div>
   </div>
