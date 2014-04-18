@@ -284,6 +284,8 @@ function ScanCtrl($scope, ScanSvc) {
 
   $scope.export = function() {
     document.getElementById('report').innerHTML = "";
+    $scope.reportLength = 0;
+    $scope.$apply();
     localforage.getItem('results', function (results_storage) {
       if(!results_storage){
         alert('There are no results to export')
@@ -293,23 +295,22 @@ function ScanCtrl($scope, ScanSvc) {
       JSON.parse(results_storage).forEach( function (result) {
         if (printable[result.filename] === undefined)
           printable[result.filename] = {};
-        if (printable[result.filename][result.rule.name] === undefined) {
+        if (printable[result.filename][result.rule.name] === undefined)
           printable[result.filename][result.rule.name] = [];
-	  $scope.reportLength += 1;
-	  console.log($scope.reportLength);
-	}
         printable[result.filename][result.rule.name].push(result.line);
       });
 
       var p = document.createElement('h6');
       p.textContent = "filename, rule name, line";
-      var report_iframe = document.getElementById('report');
-      report_iframe.appendChild(p);
+      var div = document.getElementById('report');
+      div.appendChild(p);
       for (var file in printable) {
         for (var rule in printable[file]) {
+	  $scope.reportLength += 1;
+	  $scope.$apply();
           var p = document.createElement('h6');
           p.textContent = file + ", " + rule + ", [" + printable[file][rule].join(", ") + "]";
-          report_iframe.appendChild(p);
+          div.appendChild(p);
         }
       }
     });
