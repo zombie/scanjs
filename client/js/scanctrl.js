@@ -285,7 +285,6 @@ function ScanCtrl($scope, ScanSvc) {
   $scope.export = function() {
     document.getElementById('report').innerHTML = "";
     $scope.reportLength = 0;
-    $scope.$apply();
     localforage.getItem('results', function (results_storage) {
       if(!results_storage){
         alert('There are no results to export')
