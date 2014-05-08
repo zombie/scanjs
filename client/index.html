@@ -94,7 +94,7 @@
 
         <div id="scan-files-selected" class="hidden">
           <p>
-            Select files below, then <button class="btn btn-default left-block" ng-click='run()'>Scan</button>
+            Select files below, then <button class="btn btn-primary left-block" ng-click='run()'>Scan</button>
           </p>
           <table class="table table-striped">
             <thead>
@@ -215,14 +215,12 @@
 
   <div id="experiment-wrapper" class="panel hidden" ng-controller="ExperimentCtrl">
     <div class="col-md-5">
-      <h4>Test with loaded rules</h4>
-      <button ng-click="runScan()">Scan with loaded rules</button>
-      <h4>Test a specific rule</h4>
-      <button ng-click="runManualScan()">Manual Scan</button> <input type="text" ng-model="rule" ng-keyup="runManualScan()"></input>
-
-      <div class="codeMirror" id="experiment-mirror" ng-keyup="lastScan()">
-
-      </div>
+      <br>
+      <div class="codeMirror" id="experiment-mirror" ng-keyup="lastScan()"></div>
+      <br>
+      <button class="btn btn-primary" ng-click="runScan()">Scan</button>
+      <button class="btn btn-default" ng-click="runManualScan()">Scan Custom Rule</button>
+      <input placeholder="custom rule: e.g., eval()" ng-model="rule" class="ng-pristine ng-valid" ng-keyup="runManualScan()" type="text">
     </div>
     <div class=""col="col-md-3">
 
