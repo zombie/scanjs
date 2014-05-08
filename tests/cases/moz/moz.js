@@ -591,5 +591,4 @@
       });
     });
 
-  }); //describe('Mozilla specific tests'...
-})();
+  })(); //describe('Mozilla specific tests'...
