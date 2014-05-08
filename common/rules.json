@@ -766,5 +766,65 @@
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications. It allows managing the Wifi features of the phone.",
     "threat": "Certified API"
+  },
+  {
+    "source":"navigator.mozWifiManager",
+    "testhit":"navigator.mozWifiManager",
+    "testmiss":null,
+    "desc":"This function is only available to higher privileged Firefox OS applications. It allows managing the Wifi features of the phone.","threat":"Certified API"
+  },
+  {
+    "source":"navigator.mozKeyboard",
+    "testhit":"var keyboard = navigator.mozKeyboard || navigator.mozInputMethod;",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"navigator.mozCellBroadcast",
+    "testhit":"navigator.mozCellBroadcast.onreceived = this.show.bind(this);",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"navigator.mozMobileConnection",
+    "testhit":"var conn = window.navigator.mozMobileConnection || window.navigator.mozMobileConnections",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"navigator.mozMobileConnections",
+    "testhit":"var conn = window.navigator.mozMobileConnection || window.navigator.mozMobileConnections",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"navigator.mozNotification",
+    "testhit":"var notification = navigator.mozNotification.createNotification(title, body, icon);",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"navigator.mozSms",
+    "testhit":"window.navigator.mozSms.onreceived = func;",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"$.mozAudioChannel",
+    "testhit":"ringer.mozAudioChannel = 'content';",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"$.addEventListener('moznetworkupload',",
+    "testhit":"window.addEventListener('moznetworkupload', _onNetworkActivity);",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
+  },
+  {
+    "source":"$.addEventListener('moznetworkdownload',",
+    "testhit":"window.addEventListener('moznetworkdownload', _onNetworkActivity);",
+    "testmiss":null,
+    "desc":"Usage of sensitive API","threat":""
   }
 ]
