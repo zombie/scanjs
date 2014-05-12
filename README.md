@@ -1,16 +1,38 @@
 scanjs
 ======
 
-- Static analysis tool for javascript codebases. Scanjs uses Acorn to convert sources to AST, then walks AST looking for patterns.
-- Works on both client and server side
+ScanJS is a Static analysis tool for javascript code. ScanJS was created as an aid for security review, to help identify security issues in client-side web applications. The 
 
-Client-side instructions
+Scanjs uses Acorn to convert sources to AST, then walks AST looking for source patterns
+
+ScanJS Rules
+------------------------
+Rules are specified in JSON format - for an example see ```/common/template_rules.json```
+
+At a minimum, each must have rule is made up of 2 attributes:
+- name: the name of the rule
+- source: javascript source which matches one of the patterns below
+
+The following statements are supported:
+
+identifier: matches any identifier , e.g. "foo"
+property: matches any property 
+ 
+Optionally a rule may have the following attirbutes:
+- testhit: one more JavaScript statements (seperate by semi-colons) that the rule will match
+- testmiss: the rule should not match any of these statements
+- desc: description of the rule
+- threat: for catgorizing rules by threat
+
+
+
+Run ScanJS in the browser
 ------------------------
 - ```git clone https://github.com/mozilla/scanjs.git```
 - ```node server.js```
 - Navigate to scanjs/client/ or see our [example page](http://mozilla.github.io/scanjs/client/)
 
-Server-side instructions
+Run ScanJS from the command line
 ------------------------
 - Install [node.js](http://nodejs.org/)
 - ```git clone https://github.com/mozilla/scanjs.git```
@@ -20,13 +42,14 @@ Server-side instructions
 
 Testing instructions
 ------------------------
-We use the mocha testing framework.
-```node server.js```
-```http://127.0.0.1:4000/tests/```
+Tests use the mocha testing framework.
 
-To add tests, create a new file in ```/tests/cases/``` and following the naming
-convention, which should be obvious. For example, our rule named .innerHTML
-lives in ```/tests/cases/innerhtml.js```.
+- ```node server.js```
+- ```http://127.0.0.1:4000/tests/```
 
-From there, add the new test case to ```/tests/index.html```. In our
-example, that would involve adding a ```<script src='/tests/cases/innerhtml.js'></script>```.
+Tests are included in the rules declaration (see common/rules.json) by specifying the following two attributes, which are specified in the form of a series of javascript statements:
+
+- _testhit_: The rule should match each of these statements individualy. 
+- _testmiss_: The rule should not match all of these statements.
+
+
