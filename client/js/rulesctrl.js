@@ -19,6 +19,7 @@ scanjsModule.controller('RuleListCtrl', ['$scope', 'ScanSvc', function RuleListC
       } else {
         console.log('Error loading ' + rules)
       }
+      $scope.$apply();
     };
 
     request.onerror = function () {
@@ -39,5 +40,7 @@ scanjsModule.controller('RuleListCtrl', ['$scope', 'ScanSvc', function RuleListC
     }
 
     reader.readAsText(fileList[0])
-  }
+  };
+
+  loadRulesFile($scope.rulesFile);
 }]);
