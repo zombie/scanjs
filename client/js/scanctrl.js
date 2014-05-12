@@ -1,5 +1,15 @@
-function ScanCtrl($scope, ScanSvc) {
-  $scope.codeMirror = undefined;
+scanjsModule.controller('ScanCtrl', ['$scope', 'ScanSvc', function ScanCtrl($scope, ScanSvc) {
+  if (!document.getElementById("codeMirrorDiv").children.length) {
+  $scope.codeMirror = new CodeMirror(document.getElementById('codeMirrorDiv'), {
+    mode: 'javascript',
+    lineNumbers: true,
+    theme: 'mdn-like',
+    value: "",
+    readOnly:true,
+    tabsize: 2,
+    styleActiveLine: true
+  });
+  }
   $scope.codeMirrorManual = undefined;
   $scope.inputFiles = [];
   $scope.results=[];
@@ -13,6 +23,10 @@ function ScanCtrl($scope, ScanSvc) {
   var pending = 0;
   var selectedFile = 0;
   var codeMirror_index = 0;
+
+  document.getElementById("scan-file-input").addEventListener("change", function(evt) {
+    $scope.handleFileUpload(this.files);
+  });
 
   $scope.run = function (source, filename) {
     //empty last scan
@@ -297,4 +311,4 @@ function ScanCtrl($scope, ScanSvc) {
     $scope.saveState();
   });
 
-}
+}]);

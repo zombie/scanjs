@@ -1,4 +1,4 @@
-scanjsModule.factory('ScanSvc', function($rootScope) {
+scanjsModule.factory('ScanSvc', ['$rootScope', '$http', function($rootScope, $http) {
   var ScanService = {
     //results:[],
     ready:false,
@@ -44,5 +44,11 @@ scanjsModule.factory('ScanSvc', function($rootScope) {
   });
 
   ScanService.scanWorker.onerror = function (e) { console.log('ScanWorker Error: ', e) };
+
+  $http({method: 'GET', url: "../common/rules.json"}).
+    success(function(data, status, headers, config) {
+      ScanService.loadRules(data);
+    });
+
   return ScanService;
-});
+}]);
