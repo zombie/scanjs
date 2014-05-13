@@ -47,7 +47,4 @@ angular.element(document).ready(function() {
     styleActiveLine: true
   });
 
-  //prettify stuffs
-  prettyPrint();
-
 });
