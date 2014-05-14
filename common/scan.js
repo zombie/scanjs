@@ -307,23 +307,26 @@
       results.filename = filename;
     }
     var ast;
-    try {
-      ast = acorn.parse(source, {
-        locations: true
-      });
-    } catch (e) {
-      return [
-        {
-          type: 'error',
-          name: e.name,
-          pos: e.pos,
-          loc: { column: e.loc.column, line: e.loc.line },
-          message: e.message,
-          filename: filename
-        }
-      ];
+    if (typeof source == "string") {
+      try {
+        ast = acorn.parse(source, {
+          locations: true
+        });
+      } catch (e) {
+        return [
+          {
+            type: 'error',
+            name: e.name,
+            pos: e.pos,
+            loc: { column: e.loc.column, line: e.loc.line },
+            message: e.message,
+            filename: filename
+          }
+        ];
+      }
+    } else if (typeof source == "object") {
+      ast = source;
     }
-
 
     if (!rules) {
       return [
