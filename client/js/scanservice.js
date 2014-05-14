@@ -15,7 +15,7 @@ scanjsModule.factory('ScanSvc', function($rootScope) {
         document.documentElement.dispatchEvent(event);
       }
       else {
-        this.scanWorker.postMessage({call: 'scan', arguments: [source, fileName]});
+        this.scanWorker.postMessage({call: 'scan', arguments: [source, fileName, undefined]});
       }
     },
     addResults: function(results) {
@@ -30,9 +30,11 @@ scanjsModule.factory('ScanSvc', function($rootScope) {
     ScanService.astResponseHandler = function(event) {
       //FIXME handle parse-errors if the add-on experiences those!
       //FIXME use `$rootScope.$broadcast('ScanError', evt.data.findings[0])` as below.
-      var ast = event.detail.ast;
-      var fileName = event.detail.filename
-      ScanService.scanWorker.postMessage({call: 'scan', arguments: [ast, fileName]});
+      var result = JSON.parse(event.detail);
+      var ast = result.ast;
+      var source = result.source;
+      var fileName = result.filename
+      ScanService.scanWorker.postMessage({call: 'scan', arguments: [source, fileName, ast]});
     };
     document.documentElement.addEventListener("ast-parsed", ScanService.astResponseHandler, false);
   }

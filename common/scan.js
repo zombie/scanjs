@@ -297,7 +297,7 @@
     }
   }
 
-  function aw_scan(source, filename) {
+  function aw_scan(source, filename, ast) {
     results = [];
     results.filename = "Manual input"
 
@@ -306,8 +306,7 @@
     if (typeof filename != 'undefined') {
       results.filename = filename;
     }
-    var ast;
-    if (typeof source == "string") {
+    if (typeof ast == "undefined") {
       try {
         ast = acorn.parse(source, {
           locations: true
@@ -324,8 +323,6 @@
           }
         ];
       }
-    } else if (typeof source == "object") {
-      ast = source;
     }
 
     if (!rules) {
