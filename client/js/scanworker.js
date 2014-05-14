@@ -22,7 +22,8 @@ onmessage = function (evt) {
     var rules;
 
     var file = args[1];
-    var findings = ScanJS.scan(source,file);
+    var ast = args[2] || undefined;
+    var findings = ScanJS.scan(source, file, ast);
     postMessage({"filename": file, "findings": findings});
   }
   else if(evt.data.call === 'updateRules'){
