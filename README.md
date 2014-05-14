@@ -28,9 +28,12 @@ Optionally a rule may have the following attirbutes:
 
 Run ScanJS in the browser
 ------------------------
+- Install [node.js](http://nodejs.org/)
 - ```git clone https://github.com/mozilla/scanjs.git```
+- ```cd scanjs```
+- ```npm install```
 - ```node server.js```
-- Navigate to scanjs/client/ or see our [example page](http://mozilla.github.io/scanjs/client/)
+- Navigate to http://127.0.0.1:4000/client/ or see our [example page](http://mozilla.github.io/scanjs/client/)
 
 Run ScanJS from the command line
 ------------------------
