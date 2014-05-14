@@ -9,7 +9,14 @@ scanjsModule.factory('ScanSvc', function($rootScope) {
     },
     newScan: function(file,source) {
       var fileName = file || 'inline';
-      this.scanWorker.postMessage({call: 'scan', arguments: [source, fileName]});
+      if (location.protocol == "resource:") { // get AST from add-on (async)
+        var event = document.createEvent('CustomEvent');
+        event.initCustomEvent("ast-request", true, true, {'source': source, 'filename': fileName});
+        document.documentElement.dispatchEvent(event);
+      }
+      else {
+        this.scanWorker.postMessage({call: 'scan', arguments: [source, fileName]});
+      }
     },
     addResults: function(results) {
       $rootScope.$broadcast('NewResults', results);
@@ -19,6 +26,16 @@ scanjsModule.factory('ScanSvc', function($rootScope) {
       this.scanWorker.postMessage({call: 'updateRules', rules: ruleData});
     }
   };
+  if (location.protocol == "resource:") {
+    ScanService.astResponseHandler = function(event) {
+      //FIXME handle parse-errors if the add-on experiences those!
+      //FIXME use `$rootScope.$broadcast('ScanError', evt.data.findings[0])` as below.
+      var ast = event.detail.ast;
+      var fileName = event.detail.filename
+      ScanService.scanWorker.postMessage({call: 'scan', arguments: [ast, fileName]});
+    };
+    document.documentElement.addEventListener("ast-parsed", ScanService.astResponseHandler, false);
+  }
   ScanService.scanWorker = new Worker("js/scanworker.js");
   ScanService.scanWorker.addEventListener("message", function (evt) {
     if (('findings' in evt.data) && ('filename' in evt.data)) {
