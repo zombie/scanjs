@@ -29,10 +29,8 @@ Optionally a rule may have the following attirbutes:
 Run ScanJS in the browser
 ------------------------
 - Install [node.js](http://nodejs.org/)
-- ```git clone https://github.com/mozilla/scanjs.git```
-- ```cd scanjs```
-- ```npm install```
-- ```node server.js```
+- ```npm install -g mozilla/scanjs```
+- ```scanjs-server```
 - Navigate to http://127.0.0.1:4000/client/ or see our [example page](http://mozilla.github.io/scanjs/client/)
 
 Run ScanJS from the command line
@@ -45,7 +43,7 @@ Testing instructions
 ------------------------
 Tests use the mocha testing framework.
 
-- ```node server.js```
+- ```scanjs-server```
 - ```http://127.0.0.1:4000/tests/```
 
 Tests are included in the rules declaration (see common/rules.json) by specifying the following two attributes, which are specified in the form of a series of javascript statements:
