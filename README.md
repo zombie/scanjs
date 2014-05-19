@@ -38,10 +38,8 @@ Run ScanJS in the browser
 Run ScanJS from the command line
 ------------------------
 - Install [node.js](http://nodejs.org/)
-- ```git clone https://github.com/mozilla/scanjs.git```
-- ```cd scanjs```
-- ```npm install```
-- ```node scanner.js -t DIRECTORY_PATH```
+- ```npm install -g mozilla/scanjs```
+- ```scanjs -t DIRECTORY_PATH```
 
 Testing instructions
 ------------------------
