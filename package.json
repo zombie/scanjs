@@ -2,7 +2,11 @@
   "name": "scanjs",
   "version": "0.0.2",
   "description": "Static analysis tool for javascript codebases",
-  "main": "index.js",
+  "main": "scanner.js",
+  "bin": {
+    "scanjs": "./scanner.js"
+  },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/mozilla/scanjs.git"
