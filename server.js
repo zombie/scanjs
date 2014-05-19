@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var static = require("node-static");
 var file = new static.Server('.', {
   headers: {

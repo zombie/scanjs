@@ -4,7 +4,8 @@
   "description": "Static analysis tool for javascript codebases",
   "main": "scanner.js",
   "bin": {
-    "scanjs": "./scanner.js"
+    "scanjs": "./scanner.js",
+    "scanjs-server": "./server.js"
   },
   "preferGlobal": true,
   "repository": {
