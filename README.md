@@ -11,7 +11,7 @@ Rules are specified in JSON format - for an example see ```/common/template_rule
 
 At a minimum, each must have rule is made up of 2 attributes:
 - name: the name of the rule
-- source: javascript source which matches one of the patterns below
+- source: javascript source which matches one of the patterns below (see Rule Syntax below)
 
 Optionally a rule may have the following attirbutes:
 - testhit: one more JavaScript statements (seperate by semi-colons) that the rule will match
@@ -19,6 +19,9 @@ Optionally a rule may have the following attirbutes:
 - desc: description of the rule
 - threat: for catgorizing rules by threat
 
+
+Rule Syntax
+------------------------
 
 For the `source` attribute, the following basic statements are supported:
 - identifier `foo`: matches any identifier ,  "foo"
@@ -52,6 +55,8 @@ Tips:
 Examples:
 See /common/template_rules.json and /common/rules.json
 
+Running ScanJS
+======================
 
 Run ScanJS in the browser
 ------------------------
