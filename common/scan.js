@@ -164,51 +164,13 @@
     ifstatement: {
       nodeType: "IfStatement",
       test: function(testNode, node) {
-        if(testNode.name == node.type && node.test.type == "AssignmentExpression") {
-          return true;
+        if (testNode.test.type == node.test.type && testNode.test.type == "AssignmentExpression") {
+          if (templateRules.assignment.test(testNode.test,node.test) || testNode.test.left.name == "$") {
+            return true;
+          }
         }
       }
     },
-    conditionalexpression: {
-      nodeType: "ConditionalExpression",
-      test: function(testNode, node) {
-        if(testNode.name == node.type && node.test.type == "AssignmentExpression") {
-          return true;
-        }
-      }
-    },
-    switchstatement: {
-      nodeType: "SwitchStatement",
-      test: function(testNode, node) {
-        if(testNode.name == node.type && node.discriminant.type == "AssignmentExpression") {
-          return true;
-        }
-      }
-    },
-    whilestatement: {
-      nodeType: "WhileStatement",
-      test: function(testNode, node) {
-        if(testNode.name == node.type && node.test.type == "AssignmentExpression") {
-          return true;
-        }
-      }
-    },
-    dowhilestatement: {
-      nodeType: "DoWhileStatement",
-      test: function(testNode, node) {
-        if(testNode.name == node.type && node.test.type == "AssignmentExpression") {
-          return true;
-        }
-      }
-    },
-    forstatement: {
-      nodeType: "ForStatement",
-      test: function(testNode, node) {
-        if(testNode.name == node.type && node.test.type == "AssignmentExpression") {
-          return true;
-        }
-      }
-    }
   };
 
   function aw_loadRulesFile(rulesFile, callback) {
@@ -247,27 +209,13 @@
     } catch (e) {
       throw('Can\'t parse rule:' + rule.name );
     }
-
+    
+    if (rule.statement.type == "IfStatement") {
+      return 'ifstatement';
+    }
+    
     //identifier
     if (rule.statement.expression.type == "Identifier") {
-      if(rule.source == "IfStatement") {
-        return 'ifstatement';
-      }
-      if(rule.source == "ConditionalExpression") {
-        return 'conditionalexpression';
-      }
-      if(rule.source == "SwitchStatement") {
-        return 'switchstatement';
-      }
-      if(rule.source == "WhileStatement") {
-        return 'whilestatement';
-      }
-      if(rule.source == "DoWhileStatement") {
-        return 'dowhilestatement';
-      }
-      if(rule.source == "ForStatement") {
-        return 'forstatement';
-      }
       return 'identifier';
     }
 
@@ -345,8 +293,15 @@
         nodeTests[template.nodeType] = [];
       }
       nodeTests[template.nodeType].push(function (template, rule, node) {
-        if (template.test(rule.statement.expression, node)) {
-          aw_found(rule, node);
+        if (rule.statement.expression) {
+          if (template.test(rule.statement.expression, node)) {
+            aw_found(rule, node);
+          }
+        }
+        else {
+           if(template.test(rule.statement,node)) {
+             aw_found(rule,node);
+           }
         }
       }.bind(undefined, template, rule));
     }

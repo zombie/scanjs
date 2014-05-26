@@ -857,50 +857,10 @@
   },
   {
     "name": "assignment typo",
-    "source": "IfStatement",
+    "source": "if($=$);",
     "testhit": "if(x=y){x=0;}",
     "testmiss": "if(x==y){x=0;}",
-    "desc": "Unintended usage of assignment in IfStatement",
-    "threat": ""
-  },
-  {
-    "name": "assignment typo",
-    "source": "ConditionalExpression",
-    "testhit": "((x=y)?x=0:x=1)",
-    "testmiss": "((x==y)?x=0:x=1)",
-    "desc": "Unintended usage of assignment in ConditionalExpression",
-    "threat": ""
-  },
-  {
-    "name": "assignment typo",
-    "source": "SwitchStatement",
-    "testhit": "switch(x=y){case 0: x=0;case 1: x=1;}",
-    "testmiss": "switch(x==y){case 0: x=0;case 1: x=1;}",
-    "desc": "Unintended usage of assignment in SwitchStatement",
-    "threat": "" 
-  },
-  {
-    "name": "assignment typo",
-    "source": "WhileStatement",
-    "testhit": "while(x=y){x=x+1;}",
-    "testmiss": "while(x==y){x=x+1;}",
-    "desc": "Unintended usage of assignment in WhileStatement",
-    "threat": "" 
-  },
-  {
-    "name": "assignment typo",
-    "source": "DoWhileStatement",
-    "testhit": "do{x=x+1;}while(x=y)",
-    "testmiss": "do{x=x+1;}while(x==y)",
-    "desc": "Unintended usage of assignment in DoWhileStatement",
-    "threat": "" 
-  },
-  {
-    "name": "assignment typo",
-    "source": "ForStatement",
-    "testhit": "for(;i=0;){i++;}",
-    "testmiss": "for(;i==0;){i++;}",
-    "desc": "Unintended usage of assignment in ForStatement",
-    "threat": "" 
+    "desc": "Unintended use of AssignmentExpression in IfStatement",
+    "threat": ""      
   }
 ]
