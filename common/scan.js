@@ -211,8 +211,8 @@
 
     //property, objectproperty
     if (rule.statement.expression.type == "MemberExpression") {
-      if (rule.statement.expression.object.name == "$") {
-        //rule is $.foo, this is a property rule
+      if (rule.statement.expression.object.name == "µ") {
+        //rule is µ.foo, this is a property rule
         return 'property';
       } else {
         return 'objectproperty';
@@ -228,7 +228,7 @@
       if (rule.statement.expression.callee.type == "Identifier") {
         return 'call' + args;
       } else if (rule.statement.expression.callee.type == "MemberExpression") {
-        if (rule.statement.expression.callee.object.name == "$") {
+        if (rule.statement.expression.callee.object.name == "µ") {
           return 'propertycall' + args;
         } else {
           return 'objectpropertycall' + args;
@@ -239,7 +239,7 @@
     //assignment, propertyassignment, objectpropertyassignment
     if (rule.statement.expression.type == "AssignmentExpression") {
       if (rule.statement.expression.left.type == "MemberExpression") {
-        if (rule.statement.expression.left.object.name == "$") {
+        if (rule.statement.expression.left.object.name == "µ") {
           return 'propertyassignment';
         } else {
           return 'objectpropertyassignment';
