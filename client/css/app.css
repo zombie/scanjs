@@ -111,3 +111,7 @@ a {
   -webkit-animation: rotating 1s linear infinite;
   animation: rotating 1s linear infinite;
 }
+.fixed {
+    position: fixed;
+    min-width: 45%;
+}
