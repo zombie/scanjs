@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*jshint node:true*/
 
 // This script is for using scanjs server side
