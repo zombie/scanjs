@@ -1,5 +1,14 @@
-function ExperimentCtrl($scope,ScanSvc) {
-  $scope.codeMirror = undefined;
+scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function ExperimentCtrl($scope, ScanSvc) {
+  if (!document.getElementById("experiment-mirror").children.length) {
+    $scope.codeMirror = new CodeMirror(document.getElementById('experiment-mirror'), {
+      mode: 'javascript',
+      lineNumbers: true,
+      theme: 'mdn-like',
+      value: "bar.foo\nfoo=something\nbaz.bar=stuff\nfoo(something)\nfoo.bar\nfoo.bar()\neval(test)\nfoo.innerHTML=danger",
+      tabsize: 2,
+      styleActiveLine: true
+    });
+  }
   $scope.results=[];
   $scope.ready=false;
   $scope.rule="eval()"
@@ -47,4 +56,4 @@ function ExperimentCtrl($scope,ScanSvc) {
 
   $scope.lastScan=$scope.runScan;
   
-}
+}]);

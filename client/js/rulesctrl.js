@@ -1,11 +1,13 @@
-function RuleListCtrl($scope, ScanSvc) {
+scanjsModule.controller('RuleListCtrl', ['$scope', 'ScanSvc', function RuleListCtrl($scope, ScanSvc) {
   $scope.rulesFile = "../common/rules.json";
   $scope.rules = []; //JSON rules object
 
-
-  loadRulesFile($scope.rulesFile);
+  document.getElementById("rule-file-input").addEventListener("change", function (evt) {
+    $scope.handleFileUpload(this.files);
+  });
 
   function loadRulesFile(rulesFile) {
+    //TODO rewrite with $http()
     var request = new XMLHttpRequest();
     request.open('GET', rulesFile);
 
@@ -13,10 +15,11 @@ function RuleListCtrl($scope, ScanSvc) {
       if (request.status >= 200 && request.status < 400) {
         $scope.rules = JSON.parse(request.responseText);
 
-        ScanSvc.loadRules($scope.rules)
+        ScanSvc.loadRules($scope.rules);
       } else {
         console.log('Error loading ' + rules)
       }
+      $scope.$apply();
     };
 
     request.onerror = function () {
@@ -37,5 +40,7 @@ function RuleListCtrl($scope, ScanSvc) {
     }
 
     reader.readAsText(fileList[0])
-  }
-}
+  };
+
+  loadRulesFile($scope.rulesFile);
+}]);
