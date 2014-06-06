@@ -858,7 +858,7 @@
   {
     "name": "assignment typo",
     "source": "if($=$);",
-    "testhit": "if(x=y){x=0;}",
+    "testhit": "if(x=y){x=0}",
     "testmiss": "if(x==y){x=0;}",
     "desc": "Unintended use of AssignmentExpression in IfStatement",
     "threat": ""      
