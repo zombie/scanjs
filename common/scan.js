@@ -161,13 +161,19 @@
         }
       }
     },
+    $_contains:function(node,typestring){
+      var foundnode = acorn.walk.findNodeAt(node,null,null,typestring);
+      return typeof foundnode != 'undefined'
+    },
     ifstatement: {
       nodeType: "IfStatement",
       test: function(testNode, node) {
         var foundnode = acorn.walk.findNodeAt(node.test,null,null,"AssignmentExpression");
-        if (typeof foundnode != 'undefined' && testNode.test.type == "AssignmentExpression") {
-          if (templateRules.assignment.test(testNode.test,foundnode.node) || testNode.test.left.name == "$") {
-            return true;
+        if (typeof foundnode != 'undefined') {
+          if(testNode.test.type=="CallExpression" && testNode.test.callee.name=="$_contains") {
+            if(templateRules.$_contains(testNode.test.arguments[0])) {
+                return true;
+            }
           }
         }
       }
