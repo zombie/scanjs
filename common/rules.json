@@ -857,7 +857,7 @@
   },
   {
     "name": "assignment typo",
-    "source": "if($_contains($=$));",
+    "source": "if($_contains(\"AssignmentExpression\"));",
     "testhit": "if(x=y){x=0}",
     "testmiss": "if(x==y){x=0;}",
     "desc": "Unintended use of AssignmentExpression in IfStatement",

@@ -168,16 +168,15 @@
     ifstatement: {
       nodeType: "IfStatement",
       test: function(testNode, node) {
-        var foundnode = acorn.walk.findNodeAt(node.test,null,null,"AssignmentExpression");
-        if (typeof foundnode != 'undefined') {
-          if(testNode.test.type=="CallExpression" && testNode.test.callee.name=="$_contains") {
-            if(templateRules.$_contains(testNode.test.arguments[0])) {
+        if(testNode.test.type=="CallExpression" && testNode.test.callee.name=="$_contains") {
+          if(testNode.test.arguments[0].type == "Literal") {
+            if(templateRules.$_contains(node.test, testNode.test.arguments[0].value)) {
                 return true;
             }
           }
         }
       }
-    },
+    }
   };
   
   function aw_loadRulesFile(rulesFile, callback) {
