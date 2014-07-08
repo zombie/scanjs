@@ -9,7 +9,7 @@
   },
   {
     "name": "global.eval",
-    "source": "µ.eval()",
+    "source": "$_any.eval()",
     "testhit": "window.eval('jsCode'+usercontrolledVal )",
     "testmiss": "eval",
     "desc": "Controlling of the first argument to eval(...) results in direct script execution.",
@@ -41,7 +41,7 @@
   },
   {
     "name": "global.setTimeout",
-    "source": "µ.setTimeout()",
+    "source": "$_any.setTimeout()",
     "testhit": "global.setTimeout('jsCode'+usercontrolledVal ,timeMs)",
     "testmiss": "setTimeout",
     "desc": "Calling setTimeout with a first argument as string (or string concatenation) with user input may lead to XSS",
@@ -57,7 +57,7 @@
   },
   {
     "name": "global.setInterval",
-    "source": "µ.setInterval()",
+    "source": "$_any.setInterval()",
     "testhit": "global.setInterval('jsCode'+usercontrolledVal ,timMs)",
     "testmiss": "setInterval",
     "desc": "Calling setInterval with a first argument as string (or string concatenation) with user input may lead to XSS",
@@ -73,7 +73,7 @@
   },
   {
     "name": "global.setImmediate",
-    "source": "µ.setImmediate()",
+    "source": "$_any.setImmediate()",
     "testhit": "global.setImmediate('jsCode'+usercontrolledVal )",
     "testmiss": "setImmediate",
     "desc": "Calling setImmediate with a first argument as string (or string concatenation) with user input may lead to XSS",
@@ -113,7 +113,7 @@
   },
   {
     "name": ".innerHTML ",
-    "source": "µ.innerHTML=µ",
+    "source": "$_any.innerHTML=$_any",
     "testhit": "a.innerHTML=foo",
     "testmiss": "innerHTML",
     "desc": "Writing user specified HTML to the DOM may lead to Cross-Site Scripting",
@@ -121,7 +121,7 @@
   },
   {
     "name": ".outerHTML ",
-    "source": "µ.outerHTML=µ",
+    "source": "$_any.outerHTML=$_any",
     "testhit": "a.outerHTML=foo",
     "testmiss": "outerHTML",
     "desc": "Writing user specified HTML to the DOM may lead to Cross-Site Scripting",
@@ -136,64 +136,64 @@
     "threat": "HTMLElement Sink"
   },
   {
-    "name": "µ.createContextualFragment",
-    "source": "µ.createContextualFragment",
+    "name": "$_any.createContextualFragment",
+    "source": "$_any.createContextualFragment",
     "testhit": "foo.createContextualFragment",
     "testmiss": "createContextualFragment",
     "desc": "",
     "threat": "HTMLElement Sink"
   },
   {
-    "name": "µ.location=",
-    "source": "µ.location=µ",
+    "name": "$_any.location=",
+    "source": "$_any.location=$_any",
     "testhit": "foo.location=bar",
     "testmiss": "foo.location==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. Furthermore, it can cause Cross-Site Scripting, when javascipt: URIs are used",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.href=",
-    "source": "µ.href=µ",
+    "name": "$_any.href=",
+    "source": "$_any.href=$_any",
     "testhit": "foo.href=bar",
     "testmiss": "foo.href==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. Furthermore, it can cause Cross-Site Scripting, when javascipt: URIs are used",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.pathname=",
-    "source": "µ.pathname=µ",
+    "name": "$_any.pathname=",
+    "source": "$_any.pathname=$_any",
     "testhit": "foo.pathname=bar",
     "testmiss": "foo.pathname==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.search=",
-    "source": "µ.search=µ",
+    "name": "$_any.search=",
+    "source": "$_any.search=$_any",
     "testhit": "foo.search=bar",
     "testmiss": "foo.search==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.protocol=",
-    "source": "µ.protocol=µ",
+    "name": "$_any.protocol=",
+    "source": "$_any.protocol=$_any",
     "testhit": "foo.protocol=bar",
     "testmiss": "foo.protocol==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.hostname=",
-    "source": "µ.hostname=µ",
+    "name": "$_any.hostname=",
+    "source": "$_any.hostname=$_any",
     "testhit": "foo.hostname=bar",
     "testmiss": "foo.hostname==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
     "threat": "Location Sink"
   },
   {
-    "name": "µ.src=",
-    "source": "µ.src=µ",
+    "name": "$_any.src=",
+    "source": "$_any.src=$_any",
     "testhit": "bar.src=foo",
     "testmiss": "src.bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. It may also lead to script execution, depending on the affected HTML Tag (i.e. object)",
@@ -209,7 +209,7 @@
   },
   {
     "name": "addEventListener()",
-    "source": "µ.addEventListener()",
+    "source": "$_any.addEventListener()",
     "testhit": "foo.addEventListener(bar+'bar')",
     "testmiss": "addEventListener",
     "desc": "Certain events (like message) may cause untrusted third party data",
@@ -217,7 +217,7 @@
   },
   {
     "name": "message handler",
-    "source": "µ.addEventListener('message')",
+    "source": "$_any.addEventListener('message')",
     "testhit": "window.addEventListener('message', receiveMessage, false); ",
     "testmiss": "window.addEventListener('notmessage', receiveMessage, false); ",
     "desc": "Check to make sure message handler validates to protect against malicious cross-origin message.",
@@ -225,7 +225,7 @@
   },
   {
     "name": "onmessage=",
-    "source": "onmessage=µ",
+    "source": "onmessage=$_any",
     "testhit": "onmessage=bar",
     "testmiss": "onmessage",
     "desc": "Check to make sure message handler validates to protect against malicious cross-origin message.",
@@ -257,7 +257,7 @@
   },
   {
     "name": "Indexeddb",
-    "source": "µ.indexedDB",
+    "source": "$_any.indexedDB",
     "testhit": "window.indexedDB.open('MyTestDatabase');",
     "testmiss": " 'indexeddb'",
     "desc": "Client-side data storage.",
@@ -265,7 +265,7 @@
   },
   {
     "name": "localStorage",
-    "source": "µ.localStorage",
+    "source": "$_any.localStorage",
     "testhit": "window.localStorage.setItem('name', 'user1'); ",
     "testmiss": " 'localStorage'",
     "desc": "Client-side data storage.",
@@ -273,7 +273,7 @@
   },
   {
     "name": "sessionStorage",
-    "source": "µ.sessionStorage",
+    "source": "$_any.sessionStorage",
     "testhit": "window.sessionStorage.setItem('name', 'user1'); ",
     "testmiss": " 'sessionStorage'",
     "desc": "Client-side data storage.",
@@ -281,7 +281,7 @@
   },
   {
     "name": "DomParser",
-    "source": "µ.parseFromString()",
+    "source": "$_any.parseFromString()",
     "testhit": "window.doc = parser.parseFromString(someVar, 'text/html'); ",
     "testmiss": "parseFromString()",
     "desc": "Writing user specified HTML to the DOM may lead to Cross-Site Scripting",
@@ -297,7 +297,7 @@
   },
   {
     "name": "handle mozActivity",
-    "source": "µ.mozSetMessageHandler('activity')",
+    "source": "$_any.mozSetMessageHandler('activity')",
     "testhit": "navigator.mozSetMessageHandler('activity',callback)",
     "testmiss": "",
     "desc": "This function allows registering message handlers for Web Activities.",
@@ -305,7 +305,7 @@
   },
   {
     "name": "handle system message",
-    "source": "µ.mozSetMessageHandler()",
+    "source": "$_any.mozSetMessageHandler()",
     "testhit": "navigator.mozSetMessageHandler()",
     "testmiss": "",
     "desc": "This function allows registering message handlers for Web Activities.",
@@ -321,7 +321,7 @@
   },
   {
     "name": "Make InterAppCommunication",
-    "source": "µ.connect()",
+    "source": "$_any.connect()",
     "testhit": "app.connect('bluetoothTransfercomms')",
     "testmiss": "",
     "desc": "",
@@ -329,7 +329,7 @@
   },
   {
     "name": "Recieve InterAppCommunication",
-    "source": "µ.setMessageHandler('connect')",
+    "source": "$_any.setMessageHandler('connect')",
     "testhit": " navigator.setMessageHandler('connect',callback)",
     "testmiss": "",
     "desc": "This function sets a handler for inter app communication messages. In general, mozSetMessageHandler allows handling WebActivities. The origin of the activity and its data might be untrusted.",
@@ -345,7 +345,7 @@
   },
   {
     "name": "attention permission",
-    "source": "window.open(µ, µ, 'attention')",
+    "source": "window.open($_any, $_any, 'attention')",
     "testhit": "window.open('oncall.html', '', 'attention');",
     "testmiss": "",
     "desc": "Attention popups fill the whole display. URLs pointing to javascript: and data: protocols can lead to XSS. Popups can also confuse and misdirect users.",
@@ -361,7 +361,7 @@
   },
   {
     "name": "audio-channel-alarm permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'alarm'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -369,7 +369,7 @@
   },
   {
     "name": "audio-channel-content permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'content'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -377,7 +377,7 @@
   },
   {
     "name": "audio-channel-normal permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'normal'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications",
@@ -385,7 +385,7 @@
   },
   {
     "name": "audio-channel-notification permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'notification'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -393,7 +393,7 @@
   },
   {
     "name": "audio-channel-publicnotification permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'publicnotification'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -401,7 +401,7 @@
   },
   {
     "name": "audio-channel-ringer permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'ringer'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -409,7 +409,7 @@
   },
   {
     "name": "audio-channel-telephony permission",
-    "source": "µ.mozAudioChannelType=µ",
+    "source": "$_any.mozAudioChannelType=$_any",
     "testhit": "ringtonePlayer.mozAudioChannelType = 'telephony'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -417,7 +417,7 @@
   },
   {
     "name": "audio-channel-content permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'content';",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -425,7 +425,7 @@
   },
   {
     "name": "audio-channel-alarm permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'alarm'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -433,7 +433,7 @@
   },
   {
     "name": "audio-channel-normal permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'normal'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -441,7 +441,7 @@
   },
   {
     "name": "audio-channel-notification permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'notification'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -449,7 +449,7 @@
   },
   {
     "name": "audio-channel-publicnotification permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'publicnotification'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -457,7 +457,7 @@
   },
   {
     "name": "audio-channel-ringer permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'ringer'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -465,7 +465,7 @@
   },
   {
     "name": "audio-channel-telephony permission",
-    "source": "µ.mozAudioChannel=µ",
+    "source": "$_any.mozAudioChannel=$_any",
     "testhit": "ringtonePlayer.mozAudioChannel = 'telephony'",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications.",
@@ -473,7 +473,7 @@
   },
   {
     "name": "background-sensors permission",
-    "source": "µ.addEventListener('deviceproximity', callback)",
+    "source": "$_any.addEventListener('deviceproximity', callback)",
     "testhit": "window.addEventListener('deviceproximity', callback)",
     "testmiss": "",
     "desc": "This exercizes the proximity API to check whether the phone is close to something (i.e. held to the ear).",
@@ -489,7 +489,7 @@
   },
   {
     "name": "browser permission",
-    "source": "µ.setAttribute('mozbrowser')",
+    "source": "$_any.setAttribute('mozbrowser')",
     "testhit": "iframe.setAttribute('mozbrowser', true);",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications. MozBrowser frames have specific, elevated permissions.",
@@ -497,7 +497,7 @@
   },
   {
     "name": "camera permission",
-    "source": "µ.mozCameras",
+    "source": "$_any.mozCameras",
     "testhit": "this.mozCameras[0].onShutter = this.onShutter;",
     "testmiss": "",
     "desc": "This function allows reading and modifying camera settings and is only available to higher privileged Firefox OS application.",
@@ -505,7 +505,7 @@
   },
   {
     "name": "cellbroadcast permission",
-    "source": "µ.addEventListener('cellbroadcastmsgchanged')",
+    "source": "$_any.addEventListener('cellbroadcastmsgchanged')",
     "testhit": "window.addEventListener('cellbroadcastmsgchanged', callback)",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -513,7 +513,7 @@
   },
   {
     "name": "contacts permission",
-    "source": "µ.mozContacts",
+    "source": "$_any.mozContacts",
     "testhit": "navigator.mozContacts.oncontactchange = callback",
     "testmiss": "",
     "desc": "This function allows reading and modifying the phone's contacts. It is only available to higher privileged Firefox OS applications.",
@@ -529,7 +529,7 @@
   },
   {
     "name": "device-storage catch-all",
-    "source": "µ.getDeviceStorage",
+    "source": "$_any.getDeviceStorage",
     "testhit": "apps = navigator.getDeviceStorage('apps');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -537,7 +537,7 @@
   },
   {
     "name": "device-storage:apps permission",
-    "source": "µ.getDeviceStorage('apps')",
+    "source": "$_any.getDeviceStorage('apps')",
     "testhit": "apps = navigator.getDeviceStorage('apps');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -545,7 +545,7 @@
   },
   {
     "name": "device-storage:crashes permission",
-    "source": "µ.getDeviceStorage('crashes')",
+    "source": "$_any.getDeviceStorage('crashes')",
     "testhit": "crashes = navigator.getDeviceStorage('crashes');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -553,7 +553,7 @@
   },
   {
     "name": "device-storage:music permission",
-    "source": "µ.getDeviceStorage('music')",
+    "source": "$_any.getDeviceStorage('music')",
     "testhit": "storage = navigator.getDeviceStorage('music');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -561,7 +561,7 @@
   },
   {
     "name": "device-storage:pictures permission",
-    "source": "µ.getDeviceStorage('pictures')",
+    "source": "$_any.getDeviceStorage('pictures')",
     "testhit": "this.image = navigator.getDeviceStorage('pictures');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -569,7 +569,7 @@
   },
   {
     "name": "device-storage:sdcard permission",
-    "source": "µ.getDeviceStorage('sdcard')",
+    "source": "$_any.getDeviceStorage('sdcard')",
     "testhit": "var storage = navigator.getDeviceStorage('sdcard');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -577,7 +577,7 @@
   },
   {
     "name": "device-storage:videos permission",
-    "source": "µ.getDeviceStorage('videos')",
+    "source": "$_any.getDeviceStorage('videos')",
     "testhit": "this.video = navigator.getDeviceStorage('videos');",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -593,7 +593,7 @@
   },
   {
     "name": "embed-apps permission",
-    "source": "µ.setAttribute('mozapp')",
+    "source": "$_any.setAttribute('mozapp')",
     "testhit": "browser.setAttribute('mozapp', config.manifestURL);",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -633,7 +633,7 @@
   },
   {
     "name": "input-manage permission",
-    "source": "µ.mgmt.hide()",
+    "source": "$_any.mgmt.hide()",
     "testhit": "navigator.mozInputMethod.mgmt.hide()",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -649,7 +649,7 @@
   },
   {
     "name": "mobilenetwork permission",
-    "source": "µ.lastKnownHomeNetwork",
+    "source": "$_any.lastKnownHomeNetwork",
     "testhit": "connection.lastKnownHomeNetwork && connection.lastKnownNetwork",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -657,7 +657,7 @@
   },
   {
     "name": "mobilenetwork permission",
-    "source": "µ.lastKnownNetwork",
+    "source": "$_any.lastKnownNetwork",
     "testhit": "connection.lastKnownHomeNetwork && connection.lastKnownNetwork",
     "testmiss": "",
     "desc": "Usage of sensitive API",
@@ -665,7 +665,7 @@
   },
   {
     "name": "network-events permission",
-    "source": "µ.addEventListener('moznetworkupload')",
+    "source": "$_any.addEventListener('moznetworkupload')",
     "testhit": "window.addEventListener('moznetworkupload', uploadHandler);",
     "testmiss": "window.addEventListener('moznetworkdownload', downloadHandler);",
     "desc": "Usage of sensitive API",
@@ -673,7 +673,7 @@
   },
   {
     "name": "network-events permission",
-    "source": "µ.addEventListener('moznetworkdownload')",
+    "source": "$_any.addEventListener('moznetworkdownload')",
     "testhit": "window.addEventListener('moznetworkdownload', downloadHandler);",
     "testmiss": "window.addEventListener('moznetworkupload', uploadHandler);",
     "desc": "Usage of sensitive API",
@@ -697,7 +697,7 @@
   },
   {
     "name": "open-remote-window permission",
-    "source": "window.open(µ,µ, 'remote=true');",
+    "source": "window.open($_any,$_any, 'remote=true');",
     "testhit": "window.open(target.dataset.url, '_blank', 'remote=true');",
     "testmiss": "",
     "desc": "Not sure if testhit example is right here..",
@@ -801,7 +801,7 @@
   },
   {
     "name": "wappush permission",
-    "source": "µ.mozSetMessageHandler('wappush-received')",
+    "source": "$_any.mozSetMessageHandler('wappush-received')",
     "testhit": "window.navigator.mozSetMessageHandler('wappush-received', wpm_onWapPushReceived);",
     "testmiss": "",
     "desc": "This specifies a handler for WAP Push notifications. In general, mozSetMessageHandler allows handling WebActivities. The origin of the activity and its data might be untrusted.",
@@ -809,7 +809,7 @@
   },
   {
     "name": "webapps manage",
-    "source": "µ.mgmt",
+    "source": "$_any.mgmt",
     "testhit": "var req = navigator.mozApps.mgmt.getAll();",
     "testmiss": "",
     "desc": "This function is only available to higher privileged Firefox OS applications. It allows managing the phone's app.",

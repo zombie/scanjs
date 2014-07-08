@@ -25,30 +25,30 @@ Rule Syntax
 
 For the `source` attribute, the following basic statements are supported:
 - identifier `foo`: matches any identifier ,  "foo"
-- property `µ.foo`: µ is wildcard, matches anything.foo
+- property `$_any.foo`: $_any is wildcard, matches anything.foo
 - objectproperty `foo.bar`: matches object and property, i.e. foo.bar
 
 You can also matches function calls based on the same syntax:
 - call `foo()`: matches function calls with this name
-- propertycall `µ.foo`: matches anything.foo() but not foo()
+- propertycall `$_any.foo`: matches anything.foo() but not foo()
 - objectpropertycall: `foo.bar()`: matches foo.bar() only
 
 You can also search for functions with matching literal arguments:
 
 - callargs `foo('test',ignored,42)`: matches a function called foo, with 'test' as the first argument, anything as the second argument, and the number 42 as the third argument (i.e. matches ONLY literal arguments).
-- propertycallargs `µ.foo('test',ignored,42)`: same as above, but function has to be a property.
+- propertycallargs `$_any.foo('test',ignored,42)`: same as above, but function has to be a property.
 - objectpropertycallargs `foo.bar('test',ignored,42)`: same as above, but matches both object and property
 
 You can also search for assignment to a specifically named identifier:
 
-- assignment `foo=µ`: matches when foo is assigned to something
-- propertyassignment `µ.foo=µ`: matches when anything.foo is assigned to something
-- objectpropertyassignment `foo.bar=µ`: matches when foo.bar is assigned to something
+- assignment `foo=$_any`: matches when foo is assigned to something
+- propertyassignment `$_any.foo=$_any`: matches when anything.foo is assigned to something
+- objectpropertyassignment `foo.bar=$_any`: matches when foo.bar is assigned to something
 
 Tips:
 - Javascript is very dynamic, and this is navie approach: write conservative rules and review for false positives
 - One simple statement per rule, not complex statements (yet)! 
-- 'foo' does NOT match 'this.foo', if you are looking for something in global (e.g. 'alert()' ), you need to add two rules: 'alert.()' and 'µ.alert()'
+- 'foo' does NOT match 'this.foo', if you are looking for something in global (e.g. 'alert()' ), you need to add two rules: 'alert.()' and '$_any.alert()'
 - Try the rule out in the experiment tab to test what it matches
 
 

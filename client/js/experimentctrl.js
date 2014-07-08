@@ -55,7 +55,7 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
   };
 
   $scope.add_placeholder_char = function() {
-    $scope.rule += 'µ';
+    $scope.rule += '$_any';
   }
   $scope.lastScan=$scope.runScan;
   
