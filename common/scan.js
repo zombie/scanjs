@@ -30,7 +30,7 @@
     identifier: {
       nodeType: "Identifier",
       test: function (testNode, node) {
-        if (node.type=="Identifier"&&node.name == testNode.name) {
+        if (node.type == "Identifier" && node.name == testNode.name) {
           return true;
         }
       }
@@ -42,6 +42,15 @@
 
         var testName = testNode.property.type == 'Identifier' ? testNode.property.name : testNode.property.value;
         if (node.property && (node.property.name == testName || node.property.value == testName)) {
+          return true;
+        }
+      }
+    },
+    object: {
+      nodeType: "MemberExpression",
+      test: function (testNode, node) {
+        // foo.bar & foo['bar'] create different AST but mean the same thing
+        if (node.object.name == testNode.object.name) {
           return true;
         }
       }
@@ -93,7 +102,7 @@
         }
       }
     },
-    matchArgs:function(testNode,node){
+    matchArgs: function (testNode, node) {
       var matching = node.arguments.length > 0;
       var index = 0;
       while (matching && index < testNode.arguments.length) {
@@ -113,17 +122,17 @@
     callargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.call.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
-            return true;
+        if (templateRules.call.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
+          return true;
         }
       }
     },
     propertycallargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.propertycall.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
+        if (templateRules.propertycall.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
           return true;
         }
       }
@@ -131,8 +140,8 @@
     objectpropertycallargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.objectpropertycall.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
+        if (templateRules.objectpropertycall.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
           return true;
         }
       }
@@ -140,15 +149,26 @@
     assignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.identifier.test(testNode.left,node.left)) {
-          return true;
+        if (templateRules.identifier.test(testNode.left, node.left)) {
+          //support $_unsafe for RHS of assignment
+          var unsafe = true;
+          if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+            unsafe = templateRules.$_contains(node.right, "Identifier")
+          }
+          return unsafe;
         }
       }
     },
     propertyassignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.property.test(testNode.left,node.left)) {
+        //support $_unsafe for RHS of assignment
+        var unsafe = true;
+        if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+          unsafe = templateRules.$_contains(node.right, "Identifier")
+        }
+
+        if (templateRules.property.test(testNode.left, node.left) && unsafe) {
           return true;
         }
       }
@@ -156,29 +176,36 @@
     objectpropertyassignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.objectproperty.test(testNode.left,node.left)) {
+
+        //support $_unsafe for RHS of assignment
+        var unsafe = true;
+        if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+          unsafe = templateRules.$_contains(node.right, "Identifier")
+        }
+
+        if (templateRules.objectproperty.test(testNode.left, node.left) && unsafe) {
           return true;
         }
       }
     },
-    $_contains:function(node,typestring){
-      var foundnode = acorn.walk.findNodeAt(node,null,null,typestring);
+    $_contains: function (node, typestring) {
+      var foundnode = acorn.walk.findNodeAt(node, null, null, typestring);
       return typeof foundnode != 'undefined'
     },
     ifstatement: {
       nodeType: "IfStatement",
-      test: function(testNode, node) {
-        if(testNode.test.type=="CallExpression" && testNode.test.callee.name=="$_contains") {
-          if(testNode.test.arguments[0].type == "Literal") {
-            if(templateRules.$_contains(node.test, testNode.test.arguments[0].value)) {
-                return true;
+      test: function (testNode, node) {
+        if (testNode.test.type == "CallExpression" && testNode.test.callee.name == "$_contains") {
+          if (testNode.test.arguments[0].type == "Literal") {
+            if (templateRules.$_contains(node.test, testNode.test.arguments[0].value)) {
+              return true;
             }
           }
         }
       }
     }
   };
-  
+
   function aw_loadRulesFile(rulesFile, callback) {
 
     var request = new XMLHttpRequest();
@@ -203,23 +230,23 @@
   }
 
 
-  function aw_parseRule(rule) {   
+  function aw_parseRule(rule) {
     try {
       var program = acorn.parse(rule.source);
       //each rule must contain exactly one javascript statement
       if (program.body.length != 1) {
-        throw ('Rule ' + rule.name + 'contains too many statements, skipping: '+ rule.source);
+        throw ('Rule ' + rule.name + 'contains too many statements, skipping: ' + rule.source);
 
       }
       rule.statement = program.body[0]
     } catch (e) {
       throw('Can\'t parse rule:' + rule.name );
     }
-    
+
     if (rule.statement.type == "IfStatement") {
       return 'ifstatement';
     }
-    
+
     //identifier
     if (rule.statement.expression.type == "Identifier") {
       return 'identifier';
@@ -234,7 +261,10 @@
       if (rule.statement.expression.object.name == "$_any") {
         //rule is $_any.foo, this is a property rule
         return 'property';
-      } else {
+      } else if (rule.statement.expression.property.name == "$_any") {
+        return 'object';
+      }
+      else {
         return 'objectproperty';
       }
     }
@@ -268,7 +298,6 @@
         return 'assignment';
       }
     }
-
 
 
     //if we get to here we couldn't find a matching template for the rule.source
@@ -305,9 +334,9 @@
           }
         }
         else {
-           if(template.test(rule.statement,node)) {
-             aw_found(rule,node);
-           }
+          if (template.test(rule.statement, node)) {
+            aw_found(rule, node);
+          }
         }
       }.bind(undefined, template, rule));
     }

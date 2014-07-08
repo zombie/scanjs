@@ -113,15 +113,15 @@
   },
   {
     "name": ".innerHTML ",
-    "source": "$_any.innerHTML=$_any",
-    "testhit": "a.innerHTML=foo",
-    "testmiss": "innerHTML",
+    "source": "$_any.innerHTML=$_unsafe",
+    "testhit": "a.innerHTML=foo;a.innerHTML=foo+'bar'",
+    "testmiss": "a.innerHTML='foo';a.innerHTML='foo'+'bar'",
     "desc": "Writing user specified HTML to the DOM may lead to Cross-Site Scripting",
     "threat": "HTMLElement Sink"
   },
   {
     "name": ".outerHTML ",
-    "source": "$_any.outerHTML=$_any",
+    "source": "$_any.outerHTML=$_unsafe",
     "testhit": "a.outerHTML=foo",
     "testmiss": "outerHTML",
     "desc": "Writing user specified HTML to the DOM may lead to Cross-Site Scripting",
@@ -145,7 +145,7 @@
   },
   {
     "name": "$_any.location=",
-    "source": "$_any.location=$_any",
+    "source": "$_any.location=$_unsafe",
     "testhit": "foo.location=bar",
     "testmiss": "foo.location==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. Furthermore, it can cause Cross-Site Scripting, when javascipt: URIs are used",
@@ -153,7 +153,7 @@
   },
   {
     "name": "$_any.href=",
-    "source": "$_any.href=$_any",
+    "source": "$_any.href=$_unsafe",
     "testhit": "foo.href=bar",
     "testmiss": "foo.href==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. Furthermore, it can cause Cross-Site Scripting, when javascipt: URIs are used",
@@ -161,7 +161,7 @@
   },
   {
     "name": "$_any.pathname=",
-    "source": "$_any.pathname=$_any",
+    "source": "$_any.pathname=$_unsafe",
     "testhit": "foo.pathname=bar",
     "testmiss": "foo.pathname==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
@@ -169,7 +169,7 @@
   },
   {
     "name": "$_any.search=",
-    "source": "$_any.search=$_any",
+    "source": "$_any.search=$_unsafe",
     "testhit": "foo.search=bar",
     "testmiss": "foo.search==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
@@ -177,7 +177,7 @@
   },
   {
     "name": "$_any.protocol=",
-    "source": "$_any.protocol=$_any",
+    "source": "$_any.protocol=$_unsafe",
     "testhit": "foo.protocol=bar",
     "testmiss": "foo.protocol==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
@@ -185,7 +185,7 @@
   },
   {
     "name": "$_any.hostname=",
-    "source": "$_any.hostname=$_any",
+    "source": "$_any.hostname=$_unsafe",
     "testhit": "foo.hostname=bar",
     "testmiss": "foo.hostname==bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects.",
@@ -193,7 +193,7 @@
   },
   {
     "name": "$_any.src=",
-    "source": "$_any.src=$_any",
+    "source": "$_any.src=$_unsafe",
     "testhit": "bar.src=foo",
     "testmiss": "src.bar",
     "desc": "Assignments to the document's location may lead to spoofing and unexpected redirects. It may also lead to script execution, depending on the affected HTML Tag (i.e. object)",
@@ -854,13 +854,5 @@
     "testmiss": "",
     "desc": "Usage of sensitive API",
     "threat": ""
-  },
-  {
-    "name": "assignment typo",
-    "source": "if($_contains(\"AssignmentExpression\"));",
-    "testhit": "if(x=y){x=0}",
-    "testmiss": "if(x==y){x=0;}",
-    "desc": "Unintended use of AssignmentExpression in IfStatement",
-    "threat": ""      
   }
 ]
