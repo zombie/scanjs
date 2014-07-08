@@ -160,9 +160,25 @@
           return true;
         }
       }
+    },
+    $_contains:function(node,typestring){
+      var foundnode = acorn.walk.findNodeAt(node,null,null,typestring);
+      return typeof foundnode != 'undefined'
+    },
+    ifstatement: {
+      nodeType: "IfStatement",
+      test: function(testNode, node) {
+        if(testNode.test.type=="CallExpression" && testNode.test.callee.name=="$_contains") {
+          if(testNode.test.arguments[0].type == "Literal") {
+            if(templateRules.$_contains(node.test, testNode.test.arguments[0].value)) {
+                return true;
+            }
+          }
+        }
+      }
     }
   };
-
+  
   function aw_loadRulesFile(rulesFile, callback) {
 
     var request = new XMLHttpRequest();
@@ -187,7 +203,7 @@
   }
 
 
-  function aw_parseRule(rule) {
+  function aw_parseRule(rule) {   
     try {
       var program = acorn.parse(rule.source);
       //each rule must contain exactly one javascript statement
@@ -199,7 +215,11 @@
     } catch (e) {
       throw('Can\'t parse rule:' + rule.name );
     }
-
+    
+    if (rule.statement.type == "IfStatement") {
+      return 'ifstatement';
+    }
+    
     //identifier
     if (rule.statement.expression.type == "Identifier") {
       return 'identifier';
@@ -279,8 +299,15 @@
         nodeTests[template.nodeType] = [];
       }
       nodeTests[template.nodeType].push(function (template, rule, node) {
-        if (template.test(rule.statement.expression, node)) {
-          aw_found(rule, node);
+        if (rule.statement.expression) {
+          if (template.test(rule.statement.expression, node)) {
+            aw_found(rule, node);
+          }
+        }
+        else {
+           if(template.test(rule.statement,node)) {
+             aw_found(rule,node);
+           }
         }
       }.bind(undefined, template, rule));
     }
