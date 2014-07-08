@@ -45,6 +45,8 @@ You can also search for assignment to a specifically named identifier:
 - propertyassignment `$_any.foo=$_any`: matches when anything.foo is assigned to something
 - objectpropertyassignment `foo.bar=$_any`: matches when foo.bar is assigned to something
 
+If you specify `$_unsafe` on the right hand side (e.g. foo.innerHTML=$_unsafe), it will only match if the RHS contains at least one identifier.
+
 Tips:
 - Javascript is very dynamic, and this is navie approach: write conservative rules and review for false positives
 - One simple statement per rule, not complex statements (yet)! 

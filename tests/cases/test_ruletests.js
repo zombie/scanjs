@@ -9,7 +9,7 @@ describe('Testing rule templates (common/template_rules.json)', function () {
       describe('Rule: ' + rule.name, function () {
         it(rule.name + " should match template " + rule.name, function () {
           var template=ScanJS.parseRule(rule);
-          chai.expect(template).to.equal(rule.name);
+          chai.expect(rule.name).to.equal(template);
         });
 
         rule.testhit.split(";").forEach(function (testsplit) {
