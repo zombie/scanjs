@@ -854,5 +854,13 @@
     "testmiss": "",
     "desc": "Usage of sensitive API",
     "threat": ""
+  },
+  {
+    "name": "assignment typo",
+    "source": "if($_contains('AssignmentExpression'));",
+    "testhit": "if(x=y);",
+    "testmiss": "if(x==y){x=0;}",
+    "desc": "Unintended use of AssignmentExpression in If Statement",
+    "threat": "Typo"
   }
 ]
