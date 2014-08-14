@@ -4,6 +4,14 @@
   mod(this.ScanJS || (this.ScanJS = {})); // Plain browser env
 })(function (exports) {
 
+  // Default parser, override this object to change*
+  // needs parser.parse to produce an AST
+  // and parser.walk the walk.js lib
+
+  var parser = {};
+  if (acorn)
+    parser = acorn;
+
   var rules = {};
   var results = [];
   var current_source;
@@ -22,7 +30,7 @@
     });
 
     aw_found_callback(rule, node);
-  }
+  };
   var aw_found_callback = function () {
   };
 
@@ -189,7 +197,7 @@
       }
     },
     $_contains: function (node, typestring) {
-      var foundnode = acorn.walk.findNodeAt(node, null, null, typestring);
+      var foundnode = parser.walk.findNodeAt(node, null, null, typestring);
       return typeof foundnode != 'undefined'
     },
     ifstatement: {
@@ -232,7 +240,7 @@
 
   function aw_parseRule(rule) {
     try {
-      var program = acorn.parse(rule.source);
+      var program = parser.parse(rule.source);
       //each rule must contain exactly one javascript statement
       if (program.body.length != 1) {
         throw ('Rule ' + rule.name + 'contains too many statements, skipping: ' + rule.source);
@@ -364,7 +372,7 @@
     }
     var ast;
     try {
-      ast = acorn.parse(source, {
+      ast = parser.parse(source, {
         locations: true
       });
     } catch (e) {
@@ -393,7 +401,7 @@
         }
       ];
     }
-    acorn.walk.simple(ast, rules);
+      parser.walk.simple(ast, rules);
 
     return results;
   }
@@ -402,11 +410,16 @@
     aw_found_callback = found_callback;
   }
 
+  function aw_setParser(parserToSet){
+      parser = parserToSet;
+  }
+
   exports.rules = rules;
   exports.scan = aw_scan;
   exports.loadRulesFile = aw_loadRulesFile;
   exports.loadRules = aw_loadRules;
   exports.parseRule = aw_parseRule;
   exports.setResultCallback = aw_setCallback;
+  exports.setParser = aw_setParser;
 
 });

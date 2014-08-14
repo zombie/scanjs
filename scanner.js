@@ -6,11 +6,14 @@
 var fs = require('fs');
 var path = require('path');
 var beautify = require('js-beautify').js_beautify;
-global.acorn = require(__dirname + '/client/js/lib/acorn.js');
-acorn.walk = require('acorn/util/walk.js');
+
+var parser = require(__dirname + '../client/js/lib/acorn.js');
+parser.walk = require(__dirname + '../client/js/lib/walk.js');
 
 var ScanJS = require(__dirname + '/common/scan');
 var signatures = JSON.parse(fs.readFileSync(__dirname + "/common/rules.json", "utf8"));
+
+ScanJS.setParser(parser);
 ScanJS.loadRules(signatures);
 
 var argv = require('optimist').usage('Usage: $node scan.js -t [path/to/app] -o [resultFile.json]').demand(['t']).argv;
