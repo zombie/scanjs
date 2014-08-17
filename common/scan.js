@@ -23,7 +23,7 @@
   // and parser.walk the walk.js lib
 
   var parser = {};
-  if (acorn){
+  if (typeof acorn !== 'undefined' && acorn ){
     parser = acorn;
   }
 
@@ -38,10 +38,9 @@
       rule: rule,
       filename: results.filename,
       line: node.loc.start.line,
-      col: node.loc.start.col,
+      col: node.loc.start.col
       // node: node, // add a lot of cruft, removing by default
-      //this adds a snippet based on lines. Not really useful unless source is prettified first
-      snippet: ""
+      // this adds a snippet based on lines. Not really useful unless source is prettified first
     });
 
     aw_found_callback(rule, node);
