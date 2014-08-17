@@ -12,7 +12,8 @@ describe('Testing production rules (common/rules.json)', function () {
           if(testsplit.trim()!=""){
             it(rule.source + " should match " + testsplit, function () {
               ScanJS.loadRules([rule]);
-              var results = ScanJS.scan(acorn.parse(testsplit, {locations: true}));
+              var parsedTest = acorn.parse(testsplit, {locations: true});
+              var results = ScanJS.scan(parsedTest);
               chai.expect(results.length).to.equal(1);
             });
           }
@@ -20,7 +21,8 @@ describe('Testing production rules (common/rules.json)', function () {
 
         it(rule.name + " should not match " + rule.testmiss, function () {
           ScanJS.loadRules([rule]);
-          var results = ScanJS.scan(acorn.parse(rule.testmiss, {locations: true}));
+          var parsedTest = acorn.parse(rule.testmiss, {locations: true});
+          var results = ScanJS.scan(parsedTest);
           chai.expect(results).to.have.length(0);
         });
       });
