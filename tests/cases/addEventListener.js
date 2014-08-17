@@ -8,7 +8,7 @@
         });
       });
       context(null, function () {
-        var good = 'var addEventListener = "variable with name";';
+        var good =  acorn.parse('var addEventListener = "variable with name";', {locations: true});
         it(good, function () {
           chai.expect(ScanJS.scan(good, document.location.pathname)).to.be.empty;
         });
@@ -16,19 +16,19 @@
     });
     context('detects dangerous patterns', function () {
       context(null, function () {
-        var bad = 'var el = document.getElementById("outside");el.addEventListener("click", modifyText, false);';
+        var bad = acorn.parse('var el = document.getElementById("outside");el.addEventListener("click", modifyText, false);', {locations: true}) ;
         it(bad, function () {
           chai.expect(ScanJS.scan(bad, document.location.pathname)).not.to.be.empty;
         });
       });
       context(null, function () {
-        var bad = 'addEventListener("click", errorPageEventHandler, true, false);';
+        var bad = acorn.parse('addEventListener("click", errorPageEventHandler, true, false);', {locations: true});
         it(bad, function () {
           chai.expect(ScanJS.scan(bad, document.location.pathname)).not.to.be.empty;
         });
       });
       context(null, function () {
-        var bad = 'tab.linkedBrowser.addEventListener("load", function (event) {console.log(1);});';
+        var bad = acorn.parse('tab.linkedBrowser.addEventListener("load", function (event) {console.log(1);});', {locations: true});
         it(bad, function () {
           chai.expect(ScanJS.scan(bad, document.location.pathname)).not.to.be.empty;
         });
