@@ -22,7 +22,10 @@ onmessage = function (evt) {
     var rules;
 
     var file = args[1];
-    var findings = ScanJS.scan(source,file);
+
+    var ast = acorn.parse(source, {locations: true});
+
+    var findings = ScanJS.scan(ast,file);
     postMessage({"filename": file, "findings": findings});
   }
   else if(evt.data.call === 'updateRules'){

@@ -2,7 +2,7 @@
   describe('addEventListener tests', function () {
     context('ignores safe patterns', function () {
       context(null, function () {
-        var good = 'var a = "addEventListener";';
+        var good = acorn.parse('var a = "addEventListener";', {locations: true});
         it(good, function () {
           chai.expect(ScanJS.scan(good, document.location.pathname)).to.be.empty;
         });
