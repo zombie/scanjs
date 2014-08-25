@@ -39,8 +39,6 @@
       filename: results.filename,
       line: node.loc.start.line,
       col: node.loc.start.col
-      // node: node, // add a lot of cruft, removing by default
-      // this adds a snippet based on lines. Not really useful unless source is prettified first
     });
 
     aw_found_callback(rule, node);
@@ -403,8 +401,8 @@
     aw_found_callback = found_callback;
   }
 
-  function aw_setParser(parserToSet){
-      parser = parserToSet;
+  function aw_setParser(parserName){
+      parser = parserName ;
   }
 
   exports.rules = rules;
@@ -413,6 +411,6 @@
   exports.loadRules = aw_loadRules;
   exports.parseRule = aw_parseRule;
   exports.setResultCallback = aw_setCallback;
-  exports.setParser = aw_setParser;
+  exports.parser = aw_setParser;
 
 });

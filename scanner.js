@@ -12,7 +12,7 @@ var ScanJS = require(__dirname + '/common/scan');
 
 var signatures = JSON.parse(fs.readFileSync(__dirname + "/common/rules.json", "utf8"));
 
-ScanJS.setParser(parser);
+ScanJS.parser(parser);
 ScanJS.loadRules(signatures);
 
 var argv = require('optimist').usage('Usage: $node scan.js -t [path/to/app] -o [resultFile.json]').demand(['t']).argv;
