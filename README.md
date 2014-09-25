@@ -1,6 +1,8 @@
 ScanJS
 ======
 
+![travis-ci](https://travis-ci.org/mozilla/scanjs.svg)
+
 ScanJS is a Static analysis tool for javascript code. ScanJS was created as an aid for security review, to help identify security issues in client-side web applications.
 
 ScanJS uses Acorn to convert sources to AST, then walks AST looking for source patterns. Use the rules file supplied, or load your own rules. 
@@ -63,22 +65,20 @@ Running ScanJS
 Run ScanJS in the browser
 ------------------------
 - Install [node.js](http://nodejs.org/)
-- ```npm install -g mozilla/scanjs```
-- ```scanjs-server```
+- ```nodejs server.js```
 - Navigate to http://127.0.0.1:4000/client/ or see our [example page](http://mozilla.github.io/scanjs/client/)
 
 Run ScanJS from the command line
 ------------------------
 - Install [node.js](http://nodejs.org/)
-- ```npm install -g mozilla/scanjs```
-- ```scanjs -t DIRECTORY_PATH```
+- ```scanner.js -t DIRECTORY_PATH```
 
 Testing instructions
 ------------------------
 Tests use the mocha testing framework.
 
-- ```scanjs-server```
-- ```http://127.0.0.1:4000/tests/```
+- `npm test` 
+- or in the browser:```http://127.0.0.1:4000/tests/```
 
 Tests are included in the rules declaration (see common/rules.json) by specifying the following two attributes, which are specified in the form of a series of javascript statements:
 
