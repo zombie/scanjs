@@ -20,7 +20,7 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
     "testmiss": "",
     "desc": "Manual input.",
     "threat": "example"
-  }
+  };
 
   $scope.runScan = function () {
     $scope.results=[];
@@ -28,7 +28,7 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
     ScanJS.loadRules(ScanSvc.rules);
     $scope.results=ScanJS.scan(code);
     $scope.lastScan=$scope.runScan;
-  }
+  };
 
 
   $scope.runManualScan = function () {
@@ -46,7 +46,7 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
     //ScanJS.setResultCallback(found);
     $scope.results=ScanJS.scan(code);
     $scope.lastScan=$scope.runManualScan;
-  }
+  };
 
   $scope.showResult = function (filename,line, col) {
     document.querySelector("#code-mirror-wrapper").classList.toggle("hidden",false);
@@ -54,6 +54,9 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
     $scope.codeMirror.focus();
   };
 
+  $scope.add_placeholder_char = function() {
+    $scope.rule += '$_any';
+  }
   $scope.lastScan=$scope.runScan;
   
 }]);

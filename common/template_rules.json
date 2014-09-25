@@ -9,7 +9,7 @@
   },
   {
     "name": "property",
-    "source": "$.foo",
+    "source": "$_any.foo",
     "testhit": "a.foo; a.b.foo; this['foo'];this['bar'].foo;",
     "testmiss": "foo;",
     "desc": "Matches object with property of same name.",
@@ -33,7 +33,7 @@
   },
   {
     "name": "propertycall",
-    "source": "$.foo()",
+    "source": "$_any.foo()",
     "testhit": "a.foo(); a.b.foo(); this['foo']();",
     "testmiss": "foo();foo;a.foo;",
     "desc": "Find function, where callee is a member object, matching property name only",
@@ -57,8 +57,8 @@
   },
   {
     "name": "propertycallargs",
-    "source": "$.foo('test',ignored,42)",
-    "testhit": "$.foo('test',foo,42); $.foo('test',foo,42,'extra'); $.a.foo('test',foo,42); $.a[foo]('test',foo,42); $.a['b'].foo('test',bar,42);",
+    "source": "$_any.foo('test',ignored,42)",
+    "testhit": "$_any.foo('test',foo,42); $_any.foo('test',foo,42,'extra'); $_any.a.foo('test',foo,42); $_any.a[foo]('test',foo,42); $_any.a['b'].foo('test',bar,42);",
     "testmiss": "foo('test',foo,42); a.foo('miss',foo,42); a.foo('test',foo); a[foo]('test',foo,41); a['b'].foo('test',42); foo('miss');   a[foo](foo,41);",
     "desc": "Same as for propertycall, expect this allow makes sure that any supplied literal arguments are matching (both in value, and in position)",
     "threat": "example"
@@ -73,7 +73,7 @@
   },
   {
     "name": "assignment",
-    "source": "foo=$",
+    "source": "foo=$_any",
     "testhit": "foo=bar;",
     "testmiss": "foo; foo",
     "desc": "Assigning to identifier with given name",
@@ -81,7 +81,7 @@
   },
   {
     "name": "propertyassignment",
-    "source": "$.foo=$",
+    "source": "$_any.foo=$_any",
     "testhit": "a.foo=bar; a.b.foo=bar; this['foo']=bar;",
     "testmiss": "foo=bar",
     "desc": "Assigning to a object property with a given name",
@@ -89,7 +89,7 @@
   },
   {
     "name": "objectpropertyassignment",
-    "source": "foo.bar=$",
+    "source": "foo.bar=$_any",
     "testhit": "foo.bar=a; a.foo.bar=b; foo['bar']=c;a.foo['bar']=c;",
     "testmiss": "bar.bar=a;foo.foo=b;",
     "desc": "Assigning to a object property matching both object name and property name",

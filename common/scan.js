@@ -1,12 +1,35 @@
 (function (mod) {
-  if (typeof exports == "object" && typeof module == "object") return mod(exports); // CommonJS
-  if (typeof define == "function" && define.amd) return define(["exports"], mod); // AMD
-  mod(this.ScanJS || (this.ScanJS = {})); // Plain browser env
-})(function (exports) {
+
+  // CommonJS
+  if (typeof exports == "object" && typeof module == "object")
+    return mod(
+      exports,
+      require('../client/js/lib/walk.js')
+    );
+
+  // AMD
+  if (typeof define == "function" && define.amd)
+    return define([
+      "exports",
+      "../client/js/lib/walk.js"
+    ], mod);
+
+  // Plain browser env
+  mod(this.ScanJS || (this.ScanJS = {}), this.acorn.walk);
+})(function (exports, walk) {
+
+  // Default parser, override this object to change*
+  // needs parser.parse to produce an AST
+  // and parser.walk the walk.js lib
+
+  var parser = {};
+  if (typeof acorn !== 'undefined' && acorn ){
+    parser = acorn;
+  }
+
 
   var rules = {};
   var results = [];
-  var current_source;
 
   var aw_found = function (rule, node) {
 
@@ -15,14 +38,11 @@
       rule: rule,
       filename: results.filename,
       line: node.loc.start.line,
-      col: node.loc.start.col,
-      // node: node, // add a lot of cruft, removing by default
-      //this adds a snippet based on lines. Not really useful unless source is prettified first
-      snippet: current_source.split('\n').splice(node.loc.start.line - 1, node.loc.start.line + 1).join('\n')
+      col: node.loc.start.col
     });
 
     aw_found_callback(rule, node);
-  }
+  };
   var aw_found_callback = function () {
   };
 
@@ -30,7 +50,7 @@
     identifier: {
       nodeType: "Identifier",
       test: function (testNode, node) {
-        if (node.type=="Identifier"&&node.name == testNode.name) {
+        if (node.type == "Identifier" && node.name == testNode.name) {
           return true;
         }
       }
@@ -42,6 +62,15 @@
 
         var testName = testNode.property.type == 'Identifier' ? testNode.property.name : testNode.property.value;
         if (node.property && (node.property.name == testName || node.property.value == testName)) {
+          return true;
+        }
+      }
+    },
+    object: {
+      nodeType: "MemberExpression",
+      test: function (testNode, node) {
+        // foo.bar & foo['bar'] create different AST but mean the same thing
+        if (node.object.name == testNode.object.name) {
           return true;
         }
       }
@@ -93,7 +122,7 @@
         }
       }
     },
-    matchArgs:function(testNode,node){
+    matchArgs: function (testNode, node) {
       var matching = node.arguments.length > 0;
       var index = 0;
       while (matching && index < testNode.arguments.length) {
@@ -113,17 +142,17 @@
     callargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.call.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
-            return true;
+        if (templateRules.call.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
+          return true;
         }
       }
     },
     propertycallargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.propertycall.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
+        if (templateRules.propertycall.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
           return true;
         }
       }
@@ -131,8 +160,8 @@
     objectpropertycallargs: {
       nodeType: "CallExpression",
       test: function (testNode, node) {
-        if (templateRules.objectpropertycall.test(testNode,node) &&
-          templateRules.matchArgs(testNode,node)) {
+        if (templateRules.objectpropertycall.test(testNode, node) &&
+          templateRules.matchArgs(testNode, node)) {
           return true;
         }
       }
@@ -140,15 +169,26 @@
     assignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.identifier.test(testNode.left,node.left)) {
-          return true;
+        if (templateRules.identifier.test(testNode.left, node.left)) {
+          //support $_unsafe for RHS of assignment
+          var unsafe = true;
+          if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+            unsafe = templateRules.$_contains(node.right, "Identifier")
+          }
+          return unsafe;
         }
       }
     },
     propertyassignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.property.test(testNode.left,node.left)) {
+        //support $_unsafe for RHS of assignment
+        var unsafe = true;
+        if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+          unsafe = templateRules.$_contains(node.right, "Identifier")
+        }
+
+        if (templateRules.property.test(testNode.left, node.left) && unsafe) {
           return true;
         }
       }
@@ -156,8 +196,31 @@
     objectpropertyassignment: {
       nodeType: "AssignmentExpression",
       test: function (testNode, node) {
-        if (templateRules.objectproperty.test(testNode.left,node.left)) {
+
+        //support $_unsafe for RHS of assignment
+        var unsafe = true;
+        if (testNode.right.type == "Identifier" && testNode.right.name == "$_unsafe") {
+          unsafe = templateRules.$_contains(node.right, "Identifier")
+        }
+
+        if (templateRules.objectproperty.test(testNode.left, node.left) && unsafe) {
           return true;
+        }
+      }
+    },
+    $_contains: function (node, typestring) {
+      var foundnode = walk.findNodeAt(node, null, null, typestring);
+      return typeof foundnode != 'undefined'
+    },
+    ifstatement: {
+      nodeType: "IfStatement",
+      test: function (testNode, node) {
+        if (testNode.test.type == "CallExpression" && testNode.test.callee.name == "$_contains") {
+          if (testNode.test.arguments[0].type == "Literal") {
+            if (templateRules.$_contains(node.test, testNode.test.arguments[0].value)) {
+              return true;
+            }
+          }
         }
       }
     }
@@ -189,15 +252,19 @@
 
   function aw_parseRule(rule) {
     try {
-      var program = acorn.parse(rule.source);
+      var program = parser.parse(rule.source);
       //each rule must contain exactly one javascript statement
       if (program.body.length != 1) {
-        throw ('Rule ' + rule.name + 'contains too many statements, skipping: '+ rule.source);
+        throw ('Rule ' + rule.name + 'contains too many statements, skipping: ' + rule.source);
 
       }
       rule.statement = program.body[0]
     } catch (e) {
       throw('Can\'t parse rule:' + rule.name );
+    }
+
+    if (rule.statement.type == "IfStatement") {
+      return 'ifstatement';
     }
 
     //identifier
@@ -211,10 +278,13 @@
 
     //property, objectproperty
     if (rule.statement.expression.type == "MemberExpression") {
-      if (rule.statement.expression.object.name == "$") {
-        //rule is $.foo, this is a property rule
+      if (rule.statement.expression.object.name == "$_any") {
+        //rule is $_any.foo, this is a property rule
         return 'property';
-      } else {
+      } else if (rule.statement.expression.property.name == "$_any") {
+        return 'object';
+      }
+      else {
         return 'objectproperty';
       }
     }
@@ -228,7 +298,7 @@
       if (rule.statement.expression.callee.type == "Identifier") {
         return 'call' + args;
       } else if (rule.statement.expression.callee.type == "MemberExpression") {
-        if (rule.statement.expression.callee.object.name == "$") {
+        if (rule.statement.expression.callee.object.name == "$_any") {
           return 'propertycall' + args;
         } else {
           return 'objectpropertycall' + args;
@@ -239,7 +309,7 @@
     //assignment, propertyassignment, objectpropertyassignment
     if (rule.statement.expression.type == "AssignmentExpression") {
       if (rule.statement.expression.left.type == "MemberExpression") {
-        if (rule.statement.expression.left.object.name == "$") {
+        if (rule.statement.expression.left.object.name == "$_any") {
           return 'propertyassignment';
         } else {
           return 'objectpropertyassignment';
@@ -248,7 +318,6 @@
         return 'assignment';
       }
     }
-
 
 
     //if we get to here we couldn't find a matching template for the rule.source
@@ -279,8 +348,15 @@
         nodeTests[template.nodeType] = [];
       }
       nodeTests[template.nodeType].push(function (template, rule, node) {
-        if (template.test(rule.statement.expression, node)) {
-          aw_found(rule, node);
+        if (rule.statement.expression) {
+          if (template.test(rule.statement.expression, node)) {
+            aw_found(rule, node);
+          }
+        }
+        else {
+          if (template.test(rule.statement, node)) {
+            aw_found(rule, node);
+          }
         }
       }.bind(undefined, template, rule));
     }
@@ -297,34 +373,13 @@
     }
   }
 
-  function aw_scan(source, filename) {
+  function aw_scan(ast, filename) {
     results = [];
     results.filename = "Manual input"
-
-    current_source = source;
 
     if (typeof filename != 'undefined') {
       results.filename = filename;
     }
-    var ast;
-    try {
-      ast = acorn.parse(source, {
-        locations: true
-      });
-    } catch (e) {
-      return [
-        {
-          type: 'error',
-          name: e.name,
-          pos: e.pos,
-          loc: { column: e.loc.column, line: e.loc.line },
-          message: e.message,
-          filename: filename
-        }
-      ];
-    }
-
-
     if (!rules) {
       return [
         {
@@ -337,7 +392,7 @@
         }
       ];
     }
-    acorn.walk.simple(ast, rules);
+      walk.simple(ast, rules);
 
     return results;
   }
@@ -346,11 +401,16 @@
     aw_found_callback = found_callback;
   }
 
+  function aw_setParser(parserName){
+      parser = parserName ;
+  }
+
   exports.rules = rules;
   exports.scan = aw_scan;
   exports.loadRulesFile = aw_loadRulesFile;
   exports.loadRules = aw_loadRules;
   exports.parseRule = aw_parseRule;
   exports.setResultCallback = aw_setCallback;
+  exports.parser = aw_setParser;
 
 });

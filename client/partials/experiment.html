@@ -8,6 +8,7 @@
                 <div class="input-group">
                     <input placeholder="custom rule: e.g., eval()" ng-model="rule" class="ng-pristine ng-valid form-control" ng-keyup="runManualScan()" type="text">
             <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="add_placeholder_char()"><span title="Paste a placeholder char to the form field.">$_any</span></button>
                 <button class="btn btn-default" ng-click="runManualScan()">Scan with Custom Rule</button>
             </span>
                 </div>
