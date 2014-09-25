@@ -4,7 +4,7 @@
       context(null, function () {
         var good = 'var Function = "static string";';
         it(good, function(){
-          chai.expect(ScanJS.scan(acorn.parse(good, {locations:true}),  document.location.pathname)).to.be.empty;
+          chai.expect(ScanJS.scan(acorn.parse(good, {locations:true}),  "/tests/")).to.be.empty;
         });
       });
     });
@@ -12,14 +12,14 @@
       context(null, function () {
         var bad = 'new Function("alert(0)")();';
         it(bad, function(){
-          chai.expect(ScanJS.scan(acorn.parse(bad, {locations:true}),  document.location.pathname)).not.to.be.empty;
+          chai.expect(ScanJS.scan(acorn.parse(bad, {locations:true}),  "/tests/")).not.to.be.empty;
         });
       });
       context(null, function () {
         // issue 76 - https://github.com/mozilla/scanjs/issues/76
         var bad = 'var a = Function; new a("alert(0)")();';
         it.skip(bad, function(){
-          chai.expect(ScanJS.scan(acorn.parse(bad, {locations:true}),  document.location.pathname)).not.to.be.empty;
+          chai.expect(ScanJS.scan(acorn.parse(bad, {locations:true}),  "/tests/")).not.to.be.empty;
         });
       });
     });
