@@ -22,6 +22,16 @@
         <h4>
             Results
         </h4>
+        <div ng-if="error" id="parse-error">
+            <div class="alert alert-danger" role="alert">
+                <h4>
+                    <a href="" ng-click="showResult('', error.loc.line, error.loc.column)">line {{error.loc.line}}</a>
+                    ::
+                    {{error.name}}
+                </h4>
+                {{error.message}}
+            </div>
+        </div>
         <table class="table table-striped" >
             <thead>
             <tr>

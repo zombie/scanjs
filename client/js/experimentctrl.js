@@ -24,14 +24,16 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
 
   $scope.runScan = function () {
     $scope.results = [];
+    $scope.error = null;
     ScanJS.loadRules(ScanSvc.rules);
     var code = $scope.codeMirror.getValue();
     try {
       var ast = acorn.parse(code, { locations: true });
+      $scope.results = ScanJS.scan(ast);
     } catch(e) {
+      $scope.error = e;
       console.error(e);
     }
-    $scope.results = ScanJS.scan(ast);
     $scope.lastScan = $scope.runScan;
   };
 
@@ -40,23 +42,21 @@ scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function Experim
     ScanJS.loadRules([ruleData]);
 
     $scope.results = [];
+    $scope.error = null;
     var code = $scope.codeMirror.getValue();
     try {
       var ast = acorn.parse(code, { locations: true });
+      $scope.results = ScanJS.scan(ast);
+      //put ast on global variable for debugging purposes.
+      window.ast = ast;
     } catch(e) {
+      $scope.error = e;
       console.error(e);
     }
-    
-    //put ast on global variable for debugging purposes.
-    window.ast = ast;
-
-    //ScanJS.setResultCallback(found);
-    $scope.results = ScanJS.scan(ast);
     $scope.lastScan = $scope.runManualScan;
   };
 
   $scope.showResult = function (filename,line, col) {
-    document.querySelector("#code-mirror-wrapper").classList.toggle("hidden",false);
     $scope.codeMirror.setCursor(line - 1, col || 0);
     $scope.codeMirror.focus();
   };
