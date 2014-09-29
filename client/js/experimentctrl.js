@@ -1,3 +1,5 @@
+"use strict";
+
 scanjsModule.controller('ExperimentCtrl', ['$scope', 'ScanSvc', function ExperimentCtrl($scope, ScanSvc) {
   if (!document.getElementById("experiment-mirror").children.length) {
     $scope.codeMirror = new CodeMirror(document.getElementById('experiment-mirror'), {

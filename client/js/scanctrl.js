@@ -1,3 +1,5 @@
+"use strict";
+
 scanjsModule.controller('ScanCtrl', ['$scope', 'ScanSvc', function ScanCtrl($scope, ScanSvc) {
   if (!document.getElementById("codeMirrorDiv").children.length) {
   $scope.codeMirror = new CodeMirror(document.getElementById('codeMirrorDiv'), {
@@ -35,7 +37,7 @@ scanjsModule.controller('ScanCtrl', ['$scope', 'ScanSvc', function ScanCtrl($sco
     $scope.inputFiles.forEach(function (scriptFile, i) {
       if (document.getElementById('doScan_'+i).checked) {
         pending++;
-	$scope.throbOutput = true;
+        $scope.throbOutput = true;
         ScanSvc.newScan(scriptFile.name,scriptFile.asText());
       }
     });
@@ -62,19 +64,19 @@ scanjsModule.controller('ScanCtrl', ['$scope', 'ScanSvc', function ScanCtrl($sco
     }, []);
   }
 
-  $scope.filterResults=function(issue){
-    if(!issue){
+  $scope.filterResults=function(issue) {
+    if (!issue) {
       $scope.filteredResults=$scope.results;
     }
-    else{
-      if(typeof issue.name != "undefined") {
-	$scope.filteredResults=$scope.results.filter(function(result){
-	  return result.filename === issue.name;
-	});
-      }else {
-	$scope.filteredResults=$scope.results.filter(function(result){
-	  return result.rule.name == issue;
-	});
+    else {
+      if (typeof issue.name != "undefined") {
+        $scope.filteredResults = $scope.results.filter(function(result) {
+          return result.filename === issue.name;
+        });
+      } else {
+        $scope.filteredResults = $scope.results.filter(function(result) {
+          return result.rule.name == issue;
+        });
       }
     }
   }

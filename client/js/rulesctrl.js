@@ -1,3 +1,5 @@
+"use strict";
+
 scanjsModule.controller('RuleListCtrl', ['$scope', 'ScanSvc', function RuleListCtrl($scope, ScanSvc) {
   $scope.rulesFile = "../common/rules.json";
   $scope.rules = []; //JSON rules object

@@ -1,3 +1,5 @@
+"use strict";
+
 scanjsModule.factory('ScanSvc', ['$rootScope', '$http', function($rootScope, $http) {
   var ScanService = {
     //results:[],

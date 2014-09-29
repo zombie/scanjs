@@ -1,3 +1,5 @@
+"use strict";
+
 var scanjsModule = angular.module('scanjs', ['ui.bootstrap', 'ngRoute']);
 
 scanjsModule.config(['$routeProvider',

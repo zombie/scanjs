@@ -17,6 +17,7 @@
   // Plain browser env
   mod(this.ScanJS || (this.ScanJS = {}), this.acorn.walk);
 })(function (exports, walk) {
+  "use strict";
 
   // Default parser, override this object to change*
   // needs parser.parse to produce an AST
@@ -328,7 +329,7 @@
 
     var nodeTests = {};
     //each node type may have multiple tests, so first create arrays of test funcs
-    for (i in rulesData) {
+    for (var i in rulesData) {
       var rule = rulesData[i];
       //parse rule source
       var template;
@@ -364,7 +365,7 @@
 
     rules = {};
     //create a single function for each nodeType, which calls all the test functions
-    for (nodeType in nodeTests) {
+    for (var nodeType in nodeTests) {
       rules[nodeType] = function (tests, node) {
         tests.forEach(function (test) {
           test.call(this, node);
@@ -401,8 +402,8 @@
     aw_found_callback = found_callback;
   }
 
-  function aw_setParser(parserName){
-      parser = parserName ;
+  function aw_setParser(newParser){
+    parser = newParser;
   }
 
   exports.rules = rules;
