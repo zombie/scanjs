@@ -1,5 +1,5 @@
 scanjsModule.controller('RuleListCtrl', ['$scope', 'ScanSvc', function RuleListCtrl($scope, ScanSvc) {
-  $scope.rulesFile = "../common/rules.json";
+  $scope.rulesFile = "../core/rules.json";
   $scope.rules = []; //JSON rules object
 
   document.getElementById("rule-file-input").addEventListener("change", function (evt) {

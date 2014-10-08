@@ -45,7 +45,7 @@ scanjsModule.factory('ScanSvc', ['$rootScope', '$http', function($rootScope, $ht
 
   ScanService.scanWorker.onerror = function (e) { console.log('ScanWorker Error: ', e) };
 
-  $http({method: 'GET', url: "../common/rules.json"}).
+  $http({method: 'GET', url: "../core/rules.json"}).
     success(function(data, status, headers, config) {
       ScanService.loadRules(data);
     });

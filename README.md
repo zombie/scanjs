@@ -9,7 +9,7 @@ ScanJS uses Acorn to convert sources to AST, then walks AST looking for source p
 
 ScanJS Rules
 ------------------------
-Rules are specified in JSON format - for an example see ```/common/template_rules.json```
+Rules are specified in JSON format - for an example see ```/core/template_rules.json```
 
 At a minimum, each must have rule is made up of 2 attributes:
 - name: the name of the rule
@@ -57,7 +57,7 @@ Tips:
 
 
 Examples:
-See /common/template_rules.json and /common/rules.json
+See /core/template_rules.json and /core/rules.json
 
 Running ScanJS
 ======================
@@ -80,7 +80,7 @@ Tests use the mocha testing framework.
 - `npm test` 
 - or in the browser:```http://127.0.0.1:4000/tests/```
 
-Tests are included in the rules declaration (see common/rules.json) by specifying the following two attributes, which are specified in the form of a series of javascript statements:
+Tests are included in the rules declaration (see core/rules.json) by specifying the following two attributes, which are specified in the form of a series of javascript statements:
 
 - _testhit_: The rule should match each of these statements individualy. 
 - _testmiss_: The rule should not match all of these statements.

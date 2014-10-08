@@ -1,1 +1,1 @@
-ScanJS.loadRulesFile("../common/rules.json");
+ScanJS.loadRulesFile("../core/rules.json");

@@ -8,9 +8,9 @@ var path = require('path');
 var beautify = require('js-beautify').js_beautify;
 
 var parser = require(__dirname+ '/client/js/lib/acorn.js');
-var ScanJS = require(__dirname + '/common/scan');
+var ScanJS = require(__dirname + '/core/scan');
 
-var signatures = JSON.parse(fs.readFileSync(__dirname + "/common/rules.json", "utf8"));
+var signatures = JSON.parse(fs.readFileSync(__dirname + "/core/rules.json", "utf8"));
 
 ScanJS.parser(parser);
 ScanJS.loadRules(signatures);

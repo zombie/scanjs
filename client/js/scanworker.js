@@ -10,10 +10,10 @@ if (typeof console === "undefined") {
 importScripts('lib/acorn.js',
   'lib/walk.js',
   'lib/acorn_loose.js',
-  '../../common/scan.js');
+  '../../core/scan.js');
 
 //load default rules
-//ScanJS.loadRulesFile("../../common/rules.json")
+//ScanJS.loadRulesFile("../../core/rules.json")
 
 onmessage = function (evt) {
   if (evt.data.call === 'scan') {

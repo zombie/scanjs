@@ -10,7 +10,7 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/mozilla/scanjs.git"
+    "url": "https://github.com/zombie/scanjs.git"
   },
   "keywords": [
     "scanjs",

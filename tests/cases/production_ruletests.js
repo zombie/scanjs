@@ -1,4 +1,4 @@
-describe('Testing production rules (common/rules.json)', function () {
+describe('Testing production rules (core/rules.json)', function () {
   function testSetup(ruleData) {
 
     ruleData.forEach(function (rule) {
@@ -26,14 +26,14 @@ describe('Testing production rules (common/rules.json)', function () {
   }
   if (typeof $ !== "undefined") {
     $.ajax({
-      url: '../common/rules.json',
+      url: '../core/rules.json',
       async: false,
       dataType: 'json'
     }).done(testSetup);
   }
   else if (typeof require !== "undefined") {
     var fs = require("fs");
-    var signatures = JSON.parse(fs.readFileSync("../common/rules.json", "utf8"));
+    var signatures = JSON.parse(fs.readFileSync("../core/rules.json", "utf8"));
     testSetup(signatures);
   }
 })

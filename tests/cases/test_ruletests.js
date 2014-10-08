@@ -1,4 +1,4 @@
-describe('Testing rule templates (common/template_rules.json)', function () {
+describe('Testing rule templates (core/template_rules.json)', function () {
   function testSetup(ruleData) {
 
     ruleData.forEach(function (rule) {
@@ -30,14 +30,14 @@ describe('Testing rule templates (common/template_rules.json)', function () {
   }
   if (typeof $ !== "undefined") {
     $.ajax({
-      url: '../common/template_rules.json',
+      url: '../core/template_rules.json',
       async: false,
       dataType: 'json'
     }).done(testSetup);
   }
   else if (typeof require !== "undefined") {
     var fs = require("fs");
-    var signatures = JSON.parse(fs.readFileSync("../common/template_rules.json", "utf8"));
+    var signatures = JSON.parse(fs.readFileSync("../core/template_rules.json", "utf8"));
     testSetup(signatures);
   }
 })
