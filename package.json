@@ -26,7 +26,8 @@
     "optimist": "~0.5.2",
     "jszip": "~2.2.0",
     "node-static": "~0.7.3",
-    "js-beautify":"~1.4.2"
+    "js-beautify":"~1.4.2",
+    "core" : "git+https://github.com/zombie/scanjs-core"
   },
   "devDependencies": {
     "mocha": "*",
