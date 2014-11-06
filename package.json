@@ -34,6 +34,7 @@
     "chai": "*"
   },
   "scripts": {
+    "install": "node --harmony subnodule core scanjs-core",
     "test": "cd tests && mocha -r mocha-includes cases/placeholders.js cases/test_ruletests.js cases/production_ruletests.js && mocha -r mocha-includes cases/innerhtml.js cases/CustomEvent.js cases/addIdleObserver.js cases/createContextualFragment.js cases/crypto.generateCRMFRequest.js cases/document.write.js cases/document.writeln.js cases/eval.js cases/geolocation.js cases/href.js cases/indexedDB.js cases/localStorage.js cases/message.js cases/newFunction.js cases/outerHTML.js cases/parseFromString.js cases/sessionStorage.js cases/setInterval.js cases/setTimeout.js cases/src.js cases/getDeviceStorage.js cases/moz/moz.js"
   }
 }
